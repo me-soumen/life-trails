@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Trails - Document Your Life Journey</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/theme.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <img src="images/logo.png" alt="Life Trails" class="logo-img">
+                <span>Life Trails</span>
+            </a>
+            <nav class="header-nav">
+                <a href="signin.html" class="btn btn-primary">Sign In</a>
+                <button class="theme-toggle theme-toggle-light" onclick="window.themeManager.toggle()" aria-label="Toggle theme" data-theme="light">
+                    <div class="theme-toggle-track">
+                        <div class="theme-toggle-knob">
+                            <svg class="theme-toggle-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                                <path d="M12 6V4M12 20V18M6 12H4M20 12H18M8.5 8.5L7 7M17 17L15.5 15.5M8.5 15.5L7 17M17 7L15.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <span class="theme-toggle-text">LIGHT<br>MODE</span>
+                    </div>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Document Your Life Journey</h1>
+                <p>Create a beautiful timeline of your life events and build your family tree. Preserve memories, celebrate milestones, and share your story with generations to come.</p>
+                <div class="hero-buttons">
+                    <a href="signin.html" class="btn btn-primary">Get Started</a>
+                    <a href="#features" class="btn btn-secondary" style="background: rgba(255,255,255,0.15); color: white; border: 2px solid rgba(255,255,255,0.3); backdrop-filter: blur(10px);">Learn More</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="features" id="features">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
+                            <path d="M16 2v4M8 2v4M3 10h18" stroke="currentColor" stroke-width="2"/>
+                            <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3>Life Timeline</h3>
+                    <p>Chronologically document all your life events with dates, descriptions, and photos. View your journey in a beautiful reverse-chronological timeline.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3>Family Tree</h3>
+                    <p>Build and visualize your family tree. Add family members across generations and see your family structure at a glance.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="2"/>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3>Private & Secure</h3>
+                    <p>Your data is stored locally in your browser. No cloud storage, no servers. Your memories stay private and secure.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="5" y="2" width="14" height="20" rx="2" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 18h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3>Fully Responsive</h3>
+                    <p>Access your life trails from any device - desktop, tablet, or mobile. Beautiful design that works everywhere.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" id="dark-mode-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- White rounded square container -->
+                            <rect x="4" y="4" width="16" height="16" rx="4" fill="white"/>
+                            <!-- Light purple border -->
+                            <rect x="4" y="4" width="16" height="16" rx="4" stroke="#a78bfa" stroke-width="1.5"/>
+                            <!-- Golden crescent moon using mask -->
+                            <g mask="url(#crescentMask)">
+                                <circle cx="12" cy="12" r="5" fill="url(#moonGradient)"/>
+                            </g>
+                            <defs>
+                                <mask id="crescentMask">
+                                    <rect width="24" height="24" fill="white"/>
+                                    <circle cx="14" cy="12" r="4" fill="black"/>
+                                </mask>
+                                <linearGradient id="moonGradient" x1="7" y1="7" x2="17" y2="17" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stop-color="#FFD700"/>
+                                    <stop offset="50%" stop-color="#FFA500"/>
+                                    <stop offset="100%" stop-color="#FF8C00"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <h3>Dark Mode</h3>
+                    <p>Switch between light and dark themes. Choose what works best for you and your viewing preferences.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                            <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3>Smart Search</h3>
+                    <p>Quickly find events by searching through years, dates, titles, or descriptions. Never lose track of your memories.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 Life Trails. Document your journey, preserve your legacy.</p>
+    </footer>
+
+    <script src="js/theme.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

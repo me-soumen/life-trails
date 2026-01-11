@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Event - Life Trails</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/theme.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <img src="images/logo.png" alt="Life Trails" class="logo-img">
+                <span>Life Trails</span>
+            </a>
+            <nav class="header-nav"></nav>
+        </div>
+    </header>
+
+    <div class="form-page">
+        <div class="form-page-header">
+            <h1>Add Life Event</h1>
+            <p>Document a memorable moment in your life journey</p>
+        </div>
+
+        <div id="alertContainer"></div>
+
+        <form id="eventForm" class="card">
+            <div class="form-group">
+                <label class="form-label" for="eventTitle">Event Title *</label>
+                <input type="text" id="eventTitle" class="form-input" placeholder="e.g., Graduation Day" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="eventDescription">Description</label>
+                <textarea id="eventDescription" class="form-textarea" placeholder="Describe what happened, how you felt, and why it's memorable..." rows="4"></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label" for="eventDate">Date *</label>
+                    <input type="date" id="eventDate" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="eventTime">Time</label>
+                    <input type="time" id="eventTime" class="form-input">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="eventPlace">Place/Location</label>
+                <input type="text" id="eventPlace" class="form-input" placeholder="e.g., New York, USA">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Images (up to 2)</label>
+                <div class="image-upload" onclick="document.getElementById('imageInput').click()">
+                    <input type="file" id="imageInput" accept="image/*" multiple onchange="handleImageUpload(event)">
+                    <p style="margin: 0; color: var(--text-muted);">Click to upload images or drag and drop</p>
+                    <p style="margin: 8px 0 0 0; font-size: 12px; color: var(--text-muted);">Only the first 2 images will be saved</p>
+                </div>
+                <div id="imagePreview" class="image-preview"></div>
+            </div>
+
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary">Save Event</button>
+                <a href="dashboard.html" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+    <script src="js/theme.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/events.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        // Check authentication
+        if (!window.auth.requireAuth()) {
+            // Redirect will happen in auth.js
+        }
+
+        let selectedImages = [];
+
+        function showAlert(message, type = 'error') {
+            const container = document.getElementById('alertContainer');
+            container.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+
+        function handleImageUpload(event) {
+            const files = Array.from(event.target.files);
+            selectedImages = files.slice(0, 2); // Limit to 2 images
+            displayImagePreview();
+        }
+
+        function displayImagePreview() {
+            const preview = document.getElementById('imagePreview');
+            preview.innerHTML = '';
+
+            selectedImages.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const div = document.createElement('div');
+                    div.className = 'image-preview-item';
+                    div.innerHTML = `
+                        <img src="${e.target.result}" alt="Preview ${index + 1}">
+                        <button type="button" onclick="removeImage(${index})">×</button>
+                    `;
+                    preview.appendChild(div);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function removeImage(index) {
+            selectedImages.splice(index, 1);
+            displayImagePreview();
+        }
+
+        // Save images to localStorage (as base64 for demo)
+        function saveImages() {
+            return new Promise((resolve) => {
+                if (selectedImages.length === 0) {
+                    resolve([]);
+                    return;
+                }
+
+                const user = window.auth.getCurrentUser();
+                const imageNames = [];
+                let loaded = 0;
+
+                selectedImages.forEach((file, index) => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const imageName = `event_${Date.now()}_${index}.${file.name.split('.').pop()}`;
+                        // Store image data in localStorage (in production, you'd upload to server)
+                        const imageKey = `life-trails-image-${user.userId}-${imageName}`;
+                        localStorage.setItem(imageKey, e.target.result);
+                        imageNames.push(imageName);
+                        loaded++;
+
+                        if (loaded === selectedImages.length) {
+                            resolve(imageNames);
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                });
+            });
+        }
+
+        document.getElementById('eventForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const title = document.getElementById('eventTitle').value.trim();
+            const description = document.getElementById('eventDescription').value.trim();
+            const date = document.getElementById('eventDate').value;
+            const time = document.getElementById('eventTime').value || '12:00 AM';
+            const place = document.getElementById('eventPlace').value.trim();
+
+            if (!title || !date) {
+                showAlert('Please fill in all required fields');
+                return;
+            }
+
+            // Format time to 12-hour format if needed
+            let formattedTime = time;
+            if (time.includes(':')) {
+                const [hours, minutes] = time.split(':');
+                const hour = parseInt(hours);
+                const ampm = hour >= 12 ? 'PM' : 'AM';
+                const hour12 = hour % 12 || 12;
+                formattedTime = `${hour12}:${minutes} ${ampm}`;
+            }
+
+            // Save images
+            const imageNames = await saveImages();
+
+            // Create event data
+            const eventData = {
+                date: date,
+                time: formattedTime,
+                title: title,
+                description: description || '',
+                place: place || '',
+                images: imageNames
+            };
+
+            // Save event
+            const success = window.eventsManager.addEvent(eventData);
+
+            if (success) {
+                showAlert('Event added successfully!', 'success');
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1000);
+            } else {
+                showAlert('Failed to save event. Please try again.');
+            }
+        });
+
+        // Set current date and time as default
+        function setDefaultDateTime() {
+            const now = new Date();
+            const dateInput = document.getElementById('eventDate');
+            const timeInput = document.getElementById('eventTime');
+            
+            // Format date as YYYY-MM-DD
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            dateInput.value = `${year}-${month}-${day}`;
+            
+            // Format time as HH:MM
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            timeInput.value = `${hours}:${minutes}`;
+        }
+        
+        // Set defaults on page load
+        setDefaultDateTime();
+    </script>
+</body>
+</html>

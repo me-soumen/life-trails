@@ -1,0 +1,125 @@
+{
+  "id": "user123",
+  "name": "Sam",
+  "dateOfBirth": "02-09-1993",
+  "placeOfBirth": "Durgapur",
+  "family": [
+    {
+      "name": "Sam",
+      "relation": "Self",
+      "level": 0,
+      "image": "birth.png"
+    },
+    {
+      "name": "A",
+      "relation": "Father",
+      "level": -1,
+      "image": "father.png"
+    },
+    {
+      "name": "B",
+      "relation": "Mother",
+      "level": -1,
+      "image": "birth.png"
+    },
+    {
+      "name": "C",
+      "relation": "Grandfather",
+      "level": -2,
+      "image": "father.png"
+    },
+    {
+      "name": "D",
+      "relation": "Grandmother",
+      "level": -2,
+      "image": "birth.png"
+    },
+    {
+      "name": "E",
+      "relation": "Brother",
+      "level": 0,
+      "image": "birth.png"
+    },
+    {
+      "name": "F",
+      "relation": "Son",
+      "level": 1,
+      "image": "birth.png"
+    }
+  ],
+  "events": {
+    "2024": [
+      {
+        "date": "2024-11-10",
+        "time": "2:30 AM",
+        "title": "Life Trails Created",
+        "description": "Started documenting life digitally. This marks the beginning of a new journey to preserve memories and family history.",
+        "images": ["birth.png"]
+      },
+      {
+        "date": "2024-08-15",
+        "time": "10:00 AM",
+        "title": "Summer Vacation",
+        "description": "Went on a memorable family trip to the mountains. Beautiful weather and great company made it unforgettable.",
+        "images": []
+      }
+    ],
+    "2023": [
+      {
+        "date": "2023-12-25",
+        "time": "12:00 PM",
+        "title": "Christmas Celebration",
+        "description": "Celebrated Christmas with family and friends. Exchanged gifts and shared wonderful moments together.",
+        "images": []
+      },
+      {
+        "date": "2023-06-15",
+        "time": "3:00 PM",
+        "title": "Career Milestone",
+        "description": "Achieved a significant milestone in my professional career. Grateful for the opportunities and support.",
+        "images": []
+      }
+    ],
+    "2019": [
+      {
+        "date": "2019-05-20",
+        "time": "10:00 PM",
+        "title": "Graduation",
+        "description": "Completed college graduation. A proud moment for me and my family. Ready to embark on the next chapter of life.",
+        "images": []
+      },
+      {
+        "date": "2019-03-10",
+        "time": "2:00 PM",
+        "title": "Final Project Submission",
+        "description": "Submitted the final year project. Months of hard work finally came to fruition.",
+        "images": []
+      }
+    ],
+    "2015": [
+      {
+        "date": "2015-09-01",
+        "time": "9:00 AM",
+        "title": "College Admission",
+        "description": "Started college journey. Excited and nervous about the new phase of education.",
+        "images": []
+      }
+    ],
+    "2006": [
+      {
+        "date": "2006-06-01",
+        "time": "08:15 AM",
+        "title": "First Day of School",
+        "description": "A memorable start to school life. Met new friends and teachers. The beginning of an educational journey.",
+        "images": ["school1.png", "school2.png"]
+      },
+      {
+        "date": "2006-04-01",
+        "time": "08:15 AM",
+        "title": "School Admission",
+        "description": "Joined school officially. Parents were proud and I was excited about this new adventure.",
+        "images": []
+      }
+    ]
+  }
+}

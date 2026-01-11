@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Family Member - Life Trails</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/theme.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <img src="images/logo.png" alt="Life Trails" class="logo-img">
+                <span>Life Trails</span>
+            </a>
+            <nav class="header-nav"></nav>
+        </div>
+    </header>
+
+    <div class="form-page">
+        <div class="form-page-header">
+            <h1>Add Family Member</h1>
+            <p>Add a member to your family tree</p>
+        </div>
+
+        <div id="alertContainer"></div>
+
+        <form id="familyForm" class="card">
+            <div class="form-group">
+                <label class="form-label" for="memberName">Name *</label>
+                <input type="text" id="memberName" class="form-input" placeholder="Full name" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="memberRelation">Relation *</label>
+                <select id="memberRelation" class="form-select" required onchange="handleRelationChange()">
+                    <option value="">Select relation</option>
+                    <option value="Father" data-relation="Father">Father</option>
+                    <option value="Mother" data-relation="Mother">Mother</option>
+                    <option value="Grand Father (Father Side)" data-relation="Grand Father (Father Side)">Grand Father (Father Side)</option>
+                    <option value="Grand Mother (Father Side)" data-relation="Grand Mother (Father Side)">Grand Mother (Father Side)</option>
+                    <option value="Grand Father (Mother Side)" data-relation="Grand Father (Mother Side)">Grand Father (Mother Side)</option>
+                    <option value="Grand Mother (Mother Side)" data-relation="Grand Mother (Mother Side)">Grand Mother (Mother Side)</option>
+                    <option value="Brother" data-relation="Brother">Brother</option>
+                    <option value="Sister" data-relation="Sister">Sister</option>
+                    <option value="Spouse" data-relation="Spouse">Spouse</option>
+                    <option value="Son" data-relation="Son">Son</option>
+                    <option value="Daughter" data-relation="Daughter">Daughter</option>
+                    <option value="Others" data-relation="Others">Others</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="nicknameGroup" style="display: none;">
+                <label class="form-label" for="memberNickname">Nickname *</label>
+                <input type="text" id="memberNickname" class="form-input" placeholder="Enter nickname">
+            </div>
+
+            <!-- Level is auto-calculated and stored internally, not shown to user -->
+            <input type="hidden" id="memberLevel">
+
+            <div class="form-group">
+                <label class="form-label">Profile Image</label>
+                <div class="image-upload" onclick="document.getElementById('memberImageInput').click()">
+                    <input type="file" id="memberImageInput" accept="image/*" onchange="handleMemberImageUpload(event)">
+                    <p style="margin: 0; color: var(--text-muted);">Click to upload profile image</p>
+                </div>
+                <div id="memberImagePreview" class="image-preview"></div>
+            </div>
+
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary">Add Family Member</button>
+                <a href="dashboard.html" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+
+        <div class="card" style="margin-top: 32px;">
+            <h3 style="margin-bottom: 16px;">Current Family Members</h3>
+            <div id="familyList"></div>
+        </div>
+    </div>
+
+    <script src="js/theme.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/events.js"></script>
+    <script src="js/family.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        // Check authentication
+        if (!window.auth.requireAuth()) {
+            // Redirect will happen in auth.js
+        }
+
+        let selectedImage = null;
+
+        function showAlert(message, type = 'error') {
+            const container = document.getElementById('alertContainer');
+            container.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+
+        function handleMemberImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            selectedImage = file;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('memberImagePreview');
+                preview.innerHTML = `
+                    <div class="image-preview-item">
+                        <img src="${e.target.result}" alt="Preview">
+                        <button type="button" onclick="removeMemberImage()">×</button>
+                    </div>
+                `;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removeMemberImage() {
+            selectedImage = null;
+            document.getElementById('memberImagePreview').innerHTML = '';
+            document.getElementById('memberImageInput').value = '';
+        }
+
+        function handleRelationChange() {
+            const relation = document.getElementById('memberRelation').value;
+            const nicknameGroup = document.getElementById('nicknameGroup');
+            const levelInput = document.getElementById('memberLevel');
+            
+            // Show nickname field if Others is selected
+            if (relation === 'Others') {
+                nicknameGroup.style.display = 'block';
+                document.getElementById('memberNickname').required = true;
+                // For Others, level needs to be set manually (default to 0)
+                levelInput.value = '0';
+            } else {
+                nicknameGroup.style.display = 'none';
+                document.getElementById('memberNickname').required = false;
+                
+                // Auto-calculate level based on relation
+                let level = 0;
+                if (relation === 'Father' || relation === 'Mother') {
+                    level = -1;
+                } else if (relation.includes('Grand Father') || relation.includes('Grand Mother')) {
+                    level = -2;
+                } else if (relation === 'Brother' || relation === 'Sister' || relation === 'Spouse') {
+                    level = 0;
+                } else if (relation === 'Son' || relation === 'Daughter') {
+                    level = 1;
+                }
+                
+                levelInput.value = level;
+            }
+        }
+
+        function saveMemberImage() {
+            return new Promise((resolve) => {
+                if (!selectedImage) {
+                    resolve('default.png');
+                    return;
+                }
+
+                const user = window.auth.getCurrentUser();
+                const imageName = `family_${Date.now()}.${selectedImage.name.split('.').pop()}`;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // Store image data in localStorage (in production, you'd upload to server)
+                    const imageKey = `life-trails-image-${user.userId}-${imageName}`;
+                    localStorage.setItem(imageKey, e.target.result);
+                    resolve(imageName);
+                };
+                reader.readAsDataURL(selectedImage);
+            });
+        }
+
+        function updateRelationDropdown() {
+            const family = window.familyManager.getFamily();
+            const relationSelect = document.getElementById('memberRelation');
+            const options = relationSelect.querySelectorAll('option[data-relation]');
+            
+            // Count existing members
+            const counts = {
+                'Father': 0,
+                'Mother': 0,
+                'Grand Father (Father Side)': 0,
+                'Grand Mother (Father Side)': 0,
+                'Grand Father (Mother Side)': 0,
+                'Grand Mother (Mother Side)': 0,
+                'Spouse': 0
+            };
+            
+            family.forEach(member => {
+                if (counts.hasOwnProperty(member.relation)) {
+                    counts[member.relation]++;
+                }
+            });
+            
+            // Update dropdown options
+            options.forEach(option => {
+                const relation = option.getAttribute('data-relation');
+                const currentValue = relationSelect.value;
+                
+                // Check limits
+                let shouldHide = false;
+                if (relation === 'Father' && counts['Father'] >= 1) shouldHide = true;
+                if (relation === 'Mother' && counts['Mother'] >= 1) shouldHide = true;
+                if (relation === 'Spouse' && counts['Spouse'] >= 1) shouldHide = true;
+                if (relation === 'Grand Father (Father Side)' && counts['Grand Father (Father Side)'] >= 1) shouldHide = true;
+                if (relation === 'Grand Mother (Father Side)' && counts['Grand Mother (Father Side)'] >= 1) shouldHide = true;
+                if (relation === 'Grand Father (Mother Side)' && counts['Grand Father (Mother Side)'] >= 1) shouldHide = true;
+                if (relation === 'Grand Mother (Mother Side)' && counts['Grand Mother (Mother Side)'] >= 1) shouldHide = true;
+                
+                if (shouldHide && currentValue !== relation) {
+                    option.style.display = 'none';
+                    option.disabled = true;
+                } else {
+                    option.style.display = 'block';
+                    option.disabled = false;
+                }
+            });
+        }
+
+        function loadFamilyList() {
+            const family = window.familyManager.getFamily();
+            const list = document.getElementById('familyList');
+
+            if (family.length === 0) {
+                list.innerHTML = '<p style="color: var(--text-muted);">No family members added yet.</p>';
+                return;
+            }
+
+            const user = window.auth.getCurrentUser();
+            list.innerHTML = family.map((member, index) => {
+                const imageUrl = window.app.getImageUrl(user.userId, member.image);
+                return `
+                <div style="display: flex; align-items: center; gap: 16px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px;">
+                    <img src="${imageUrl}" 
+                         alt="${window.app.escapeHtml(member.name)}"
+                         onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2280%22 height=%2280%22%3E%3Crect fill=%22%23334155%22 width=%2280%22 height=%2280%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%2394a3b8%22 font-size=%2220%22%3E?%3C/text%3E%3C/svg%3E'"
+                         style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;">
+                    <div style="flex: 1;">
+                        <div style="font-weight: 500;">${window.app.escapeHtml(member.name)}</div>
+                        <div style="font-size: 13px; color: var(--text-muted);">
+                            ${member.relation === 'Others' ? (window.app.escapeHtml(member.nickname || 'Extended Family')) : window.app.escapeHtml(member.relation)}
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="deleteFamilyMember(${index})">Delete</button>
+                </div>
+            `;
+            }).join('');
+            
+            // Update dropdown after loading list
+            updateRelationDropdown();
+        }
+
+        function deleteFamilyMember(index) {
+            if (confirm('Are you sure you want to delete this family member?')) {
+                const success = window.familyManager.deleteFamilyMember(index);
+                if (success) {
+                    showAlert('Family member deleted successfully', 'success');
+                    loadFamilyList();
+                    // Reset form if the deleted member's relation is selected
+                    const relationSelect = document.getElementById('memberRelation');
+                    if (relationSelect.value) {
+                        relationSelect.value = '';
+                        handleRelationChange();
+                    }
+                } else {
+                    showAlert('Failed to delete family member');
+                }
+            }
+        }
+
+        document.getElementById('familyForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('memberName').value.trim();
+            const relation = document.getElementById('memberRelation').value.trim();
+            const level = document.getElementById('memberLevel').value;
+            const nickname = document.getElementById('memberNickname').value.trim();
+
+            if (!name || !relation) {
+                showAlert('Please fill in all required fields');
+                return;
+            }
+
+            if (relation === 'Others' && !nickname) {
+                showAlert('Please fill in nickname for Others category');
+                return;
+            }
+
+            if (!level) {
+                showAlert('Please select a relation');
+                return;
+            }
+
+            // Save image
+            const imageName = await saveMemberImage();
+
+            // Create member data
+            const memberData = {
+                name: name,
+                relation: relation,
+                level: parseInt(level),
+                image: imageName,
+                nickname: relation === 'Others' ? nickname : null
+            };
+
+            // Save member
+            const success = window.familyManager.addFamilyMember(memberData);
+
+            if (success) {
+                showAlert('Family member added successfully!', 'success');
+                document.getElementById('familyForm').reset();
+                selectedImage = null;
+                document.getElementById('memberImagePreview').innerHTML = '';
+                document.getElementById('nicknameGroup').style.display = 'none';
+                document.getElementById('memberLevel').value = '';
+                loadFamilyList();
+                // Update dropdown to hide maxed-out options
+                updateRelationDropdown();
+            } else {
+                showAlert('Failed to save family member. Please try again.');
+            }
+        });
+
+        // Load family list on page load
+        loadFamilyList();
+        
+        // Update dropdown on page load
+        updateRelationDropdown();
+    </script>
+</body>
+</html>

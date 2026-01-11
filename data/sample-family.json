@@ -1,0 +1,124 @@
+{
+  "id": "user123",
+  "name": "Sam",
+  "dateOfBirth": "02-09-1993",
+  "placeOfBirth": "Durgapur",
+  "family": [
+    {
+      "name": "Sam",
+      "relation": "Self",
+      "level": 0,
+      "image": "birth.png",
+      "nickname": null
+    },
+    {
+      "name": "John",
+      "relation": "Father",
+      "level": -1,
+      "image": "father.png",
+      "nickname": null
+    },
+    {
+      "name": "Mary",
+      "relation": "Mother",
+      "level": -1,
+      "image": "birth.png",
+      "nickname": null
+    },
+    {
+      "name": "Robert",
+      "relation": "Grand Father (Father Side)",
+      "level": -2,
+      "image": "father.png",
+      "nickname": null
+    },
+    {
+      "name": "Elizabeth",
+      "relation": "Grand Mother (Father Side)",
+      "level": -2,
+      "image": "birth.png",
+      "nickname": null
+    },
+    {
+      "name": "William",
+      "relation": "Grand Father (Mother Side)",
+      "level": -2,
+      "image": "father.png",
+      "nickname": null
+    },
+    {
+      "name": "Anna",
+      "relation": "Grand Mother (Mother Side)",
+      "level": -2,
+      "image": "birth.png",
+      "nickname": null
+    },
+    {
+      "name": "Mike",
+      "relation": "Brother",
+      "level": 0,
+      "image": "birth.png",
+      "nickname": null
+    },
+    {
+      "name": "Sarah",
+      "relation": "Sister",
+      "level": 0,
+      "image": "birth.png",
+      "nickname": null
+    },
+    {
+      "name": "Emma",
+      "relation": "Spouse",
+      "level": 0,
+      "image": "birth.png",
+      "nickname": null
+    },
+    {
+      "name": "Alex",
+      "relation": "Son",
+      "level": 1,
+      "image": "birth.png",
+      "nickname": null
+    },
+    {
+      "name": "Sophia",
+      "relation": "Daughter",
+      "level": 1,
+      "image": "birth.png",
+      "nickname": null
+    },
+    {
+      "name": "David",
+      "relation": "Others",
+      "level": 0,
+      "image": "birth.png",
+      "nickname": "Cousin"
+    },
+    {
+      "name": "Lisa",
+      "relation": "Others",
+      "level": 0,
+      "image": "birth.png",
+      "nickname": "Best Friend"
+    },
+    {
+      "name": "Tom",
+      "relation": "Others",
+      "level": -1,
+      "image": "father.png",
+      "nickname": "Uncle"
+    }
+  ],
+  "events": {
+    "2024": [
+      {
+        "date": "2024-11-10",
+        "time": "2:30 AM",
+        "title": "Life Trails Created",
+        "description": "Started documenting life digitally. This marks the beginning of a new journey to preserve memories and family history.",
+        "images": ["birth.png"]
+      }
+    ]
+  }
+}
