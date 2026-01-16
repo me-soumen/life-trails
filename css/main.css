@@ -140,6 +140,7 @@ header {
     box-sizing: border-box;
     position: relative;
     overflow: visible;
+    gap: 12px;
 }
 
 .header-container .logo {
@@ -157,6 +158,17 @@ header {
 .header-container .mobile-menu-btn {
     flex-shrink: 0;
     z-index: 1;
+}
+
+.header-actions {
+    display: none;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 12px;
+}
+
+.mobile-theme-toggle {
+    flex-shrink: 0;
 }
 
 .logo {
@@ -1124,29 +1136,29 @@ header {
     display: none;
     position: fixed;
     top: 0;
-    right: -100%;
+    left: -100%;
     width: 280px;
     max-width: 85vw;
     height: 100vh;
     background: var(--card);
-    border-left: 2px solid var(--border);
-    box-shadow: -4px 0 20px var(--shadow-lg);
+    border-right: 2px solid var(--border);
+    box-shadow: 4px 0 20px var(--shadow-lg);
     z-index: 1000;
     padding: 0;
-    transition: right 0.3s ease;
+    transition: left 0.3s ease;
     overflow: hidden;
     backdrop-filter: blur(20px);
     flex-direction: column;
 }
 
 .mobile-menu.active {
-    right: 0;
+    left: 0;
     display: flex;
 }
 
 .mobile-menu-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     padding: 20px 24px;
     border-bottom: 2px solid var(--border);
@@ -1161,6 +1173,7 @@ header {
     font-size: 20px;
     font-weight: 700;
     color: var(--text);
+    text-align: right;
 }
 
 .mobile-menu-close {
@@ -1393,7 +1406,7 @@ header {
     align-items: flex-start;
     margin-bottom: 0;
     gap: 24px;
-    flex-wrap: wrap;
+        flex-wrap: wrap;
 }
 
 .dashboard-header .profile {
@@ -1415,6 +1428,24 @@ header {
         position: relative;
         padding: 0 16px;
         overflow: visible;
+        justify-content: space-between;
+    }
+    
+    .header-container .mobile-menu-btn {
+        order: 1 !important;
+        flex-shrink: 0 !important;
+    }
+    
+    .header-container .logo {
+        order: 2 !important;
+        flex: 1 !important;
+        justify-content: center !important;
+    }
+    
+    .header-container .header-actions {
+        order: 3 !important;
+        flex-shrink: 0 !important;
+        margin-left: auto !important;
     }
 
     header {
@@ -1473,6 +1504,10 @@ header {
     
     .header-nav * {
         display: none !important;
+    }
+    
+    .header-actions {
+        display: flex !important;
     }
     
     .mobile-menu {

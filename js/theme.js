@@ -33,13 +33,16 @@
             const knob = btn.querySelector('.theme-toggle-knob');
             const text = btn.querySelector('.theme-toggle-text');
             
-            if (!track || !knob || !text) return;
+            // Only require track and knob, text is optional (for mobile buttons)
+            if (!track || !knob) return;
             
             // Update toggle state
             if (isDark) {
                 btn.classList.add('theme-toggle-dark');
                 btn.classList.remove('theme-toggle-light');
-                text.innerHTML = 'DARK<br>MODE';
+                if (text) {
+                    text.innerHTML = 'DARK<br>MODE';
+                }
                 const maskId = 'moonMask' + Math.random().toString(36).substr(2, 9);
                 knob.innerHTML = `
                     <svg class="theme-toggle-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -59,7 +62,9 @@
             } else {
                 btn.classList.add('theme-toggle-light');
                 btn.classList.remove('theme-toggle-dark');
-                text.innerHTML = 'LIGHT<br>MODE';
+                if (text) {
+                    text.innerHTML = 'LIGHT<br>MODE';
+                }
                 knob.innerHTML = `
                     <svg class="theme-toggle-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
