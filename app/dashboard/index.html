@@ -24,6 +24,30 @@
                 <img src="../../public/images/logo.png" alt="Life Trails" class="logo-img">
                 <span>Life Trails</span>
             </a>
+            <nav class="header-nav desktop-only">
+                <a href="../add/event/" class="header-emoji-btn" title="Add Event">
+                    <span class="header-emoji">➕</span>
+                </a>
+                <a href="../add/family/" class="header-emoji-btn" title="Add Family">
+                    <span class="header-emoji">👨‍👩‍👧‍👦</span>
+                </a>
+                <button class="theme-toggle theme-toggle-light" onclick="window.themeManager.toggle()" aria-label="Toggle theme" data-theme="light">
+                    <div class="theme-toggle-track">
+                        <div class="theme-toggle-knob">
+                            <svg class="theme-toggle-icon theme-toggle-icon-sun" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/>
+                                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            <svg class="theme-toggle-icon theme-toggle-icon-moon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" fill="none"/>
+                            </svg>
+                        </div>
+                    </div>
+                </button>
+                <button onclick="window.auth.signOut(); window.location.href='../../../';" class="header-emoji-btn" title="Sign Out">
+                    <span class="header-emoji">🚪</span>
+                </button>
+            </nav>
             <div class="header-actions mobile-only">
                 <button class="theme-toggle theme-toggle-light mobile-theme-toggle" onclick="window.themeManager.toggle()" aria-label="Toggle theme" data-theme="light">
                     <div class="theme-toggle-track">
@@ -86,6 +110,22 @@
         <div class="dashboard-main">
             <div class="dashboard-header">
                 <div class="profile" id="profile"></div>
+                <div class="action-buttons desktop-only">
+                    <a href="../add/event/" class="btn btn-primary action-emoji-btn" title="Add Event">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </a>
+                    <button onclick="openFamily()" class="btn btn-primary action-emoji-btn" title="View Family">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </button>
+                </div>
                 <!-- Mobile: View Family Button (emoji only) - Right side of title -->
                 <div class="mobile-family-btn mobile-only">
                     <button onclick="openFamily()" class="btn btn-primary family-emoji-btn" title="View Family">
@@ -97,22 +137,6 @@
                         </svg>
                     </button>
                 </div>
-                <div class="action-buttons desktop-only">
-                <a href="../add/event/" class="btn btn-primary action-emoji-btn" title="Add Event">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="12" y1="5" x2="12" y2="19"></line>
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg>
-                </a>
-                <button onclick="openFamily()" class="btn btn-primary action-emoji-btn" title="View Family">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="9" cy="7" r="4"></circle>
-                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                    </svg>
-                </button>
-            </div>
             </div>
             
                 <div class="search">

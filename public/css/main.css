@@ -1404,6 +1404,73 @@ header {
     stroke: white;
 }
 
+.action-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* Header Nav Emoji Buttons - Stylish circular style */
+.header-nav .header-emoji-btn {
+    width: 48px !important;
+    height: 48px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    min-width: 48px !important;
+    background: var(--gradient-primary) !important;
+    color: white !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3) !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    text-decoration: none !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.header-nav .header-emoji-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--gradient-secondary);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.header-nav .header-emoji-btn:hover {
+    transform: translateY(-3px) scale(1.05) !important;
+    box-shadow: 0 6px 25px rgba(99, 102, 241, 0.5) !important;
+}
+
+.header-nav .header-emoji-btn:hover::before {
+    opacity: 1;
+}
+
+.header-nav .header-emoji-btn:active {
+    transform: translateY(-1px) scale(1.02) !important;
+}
+
+.header-nav .header-emoji {
+    font-size: 22px !important;
+    line-height: 1 !important;
+    position: relative !important;
+    z-index: 1 !important;
+    display: block !important;
+    transition: transform 0.3s ease !important;
+}
+
+.header-nav .header-emoji-btn:hover .header-emoji {
+    transform: scale(1.15) rotate(5deg) !important;
+}
+
+
 /* Dashboard Layout */
 .dashboard-layout {
     display: flex;
@@ -1507,11 +1574,6 @@ header {
     min-width: 0;
 }
 
-.action-buttons {
-    display: flex;
-        gap: 12px;
-    flex-wrap: wrap;
-    }
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
@@ -1745,9 +1807,6 @@ header {
         order: 2 !important;
     }
     
-    .dashboard-header .action-buttons {
-        display: none !important;
-    }
     
     .profile h1 {
         margin-bottom: 6px !important;
@@ -2063,10 +2122,6 @@ header {
         order: 2;
     }
 
-    .action-buttons {
-        flex-wrap: wrap;
-        gap: 8px;
-    }
 
     .search {
         width: 100%;

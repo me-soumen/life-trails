@@ -241,13 +241,6 @@
     letter-spacing: 0.5px;
 }
 
-/* Action Buttons */
-.action-buttons {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-top: 20px;
-}
 
 /* Form Page */
 .form-page {
