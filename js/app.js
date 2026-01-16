@@ -65,19 +65,20 @@
 
         if (user) {
             headerNav.innerHTML = `
-                <a href="dashboard.html" class="btn btn-secondary">Dashboard</a>
                 <a href="add-event.html" class="btn btn-secondary">Add Event</a>
                 <a href="add-family.html" class="btn btn-secondary">Add Family</a>
                 <button onclick="window.auth.signOut(); window.location.href='index.html';" class="btn btn-secondary">Sign Out</button>
                 <button class="theme-toggle theme-toggle-light" onclick="window.themeManager.toggle()" aria-label="Toggle theme" data-theme="light">
                     <div class="theme-toggle-track">
                         <div class="theme-toggle-knob">
-                            <svg class="theme-toggle-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
-                                <path d="M12 6V4M12 20V18M6 12H4M20 12H18M8.5 8.5L7 7M17 17L15.5 15.5M8.5 15.5L7 17M17 7L15.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            <svg class="theme-toggle-icon theme-toggle-icon-sun" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/>
+                                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            <svg class="theme-toggle-icon theme-toggle-icon-moon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" fill="none"/>
                             </svg>
                         </div>
-                        <span class="theme-toggle-text">LIGHT<br>MODE</span>
                     </div>
                 </button>
             `;
@@ -87,12 +88,14 @@
                 <button class="theme-toggle theme-toggle-light" onclick="window.themeManager.toggle()" aria-label="Toggle theme" data-theme="light">
                     <div class="theme-toggle-track">
                         <div class="theme-toggle-knob">
-                            <svg class="theme-toggle-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
-                                <path d="M12 6V4M12 20V18M6 12H4M20 12H18M8.5 8.5L7 7M17 17L15.5 15.5M8.5 15.5L7 17M17 7L15.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            <svg class="theme-toggle-icon theme-toggle-icon-sun" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/>
+                                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            <svg class="theme-toggle-icon theme-toggle-icon-moon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" fill="none"/>
                             </svg>
                         </div>
-                        <span class="theme-toggle-text">LIGHT<br>MODE</span>
                     </div>
                 </button>
             `;
