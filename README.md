@@ -30,9 +30,8 @@ life-trails/
 │   ├── events.js       # Events management
 │   ├── family.js       # Family tree management
 │   └── theme.js        # Theme management
-├── images/             # User-uploaded images
-│   └── user123/        # User-specific image folders
-├── data/               # Data storage (optional)
+├── data/               # User data storage (demo user data)
+│   └── demo@life.trails.click/  # Demo user data and images
 └── README.md           # This file
 ```
 

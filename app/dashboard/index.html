@@ -24,7 +24,6 @@
                 <img src="../../public/images/logo.png" alt="Life Trails" class="logo-img">
                 <span>Life Trails</span>
             </a>
-            <nav class="header-nav"></nav>
             <div class="header-actions mobile-only">
                 <button class="theme-toggle theme-toggle-light mobile-theme-toggle" onclick="window.themeManager.toggle()" aria-label="Toggle theme" data-theme="light">
                     <div class="theme-toggle-track">
@@ -33,7 +32,7 @@
                                 <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/>
                                 <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                             </svg>
-                            <svg class="theme-toggle-icon theme-toggle-icon-moon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                            <svg class="theme-toggle-icon theme-toggle-icon-moon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" fill="none"/>
                             </svg>
                         </div>
@@ -682,68 +681,13 @@
         });
 
 
-        // Auto-load sample data for user123
-        function checkAndOfferSampleData() {
-            const user = window.auth.getCurrentUser();
-            if (!user || user.userId !== 'user123') {
-                return false;
-            }
-            
-            const dataKey = `life-trails-data-${user.userId}`;
-            const existingData = localStorage.getItem(dataKey);
-            
-            // Check if we have valid data with all years
-            let hasData = false;
-            let yearCount = 0;
-            if (existingData) {
-                try {
-                    const data = JSON.parse(existingData);
-                    const hasEvents = data.events && Object.keys(data.events).length > 0;
-                    const hasFamily = data.family && data.family.length > 0;
-                    yearCount = hasEvents ? Object.keys(data.events).length : 0;
-                    hasData = hasEvents || hasFamily;
-                } catch (e) {
-                }
-            }
-            
-            // If no data or less than 12 years (should have 15), reload
-            if (!hasData || yearCount < 12) {
-                // Clear old data flag to force reload
-                localStorage.removeItem('sample-data-loaded-user123');
-                // Try to load sample data immediately
-                fetch('data/sample-family.json')
-                    .then(r => {
-                        if (!r.ok) throw new Error('Failed to fetch: ' + r.status);
-                        return r.json();
-                    })
-                    .then(sampleData => {
-                        const loadedYearCount = sampleData.events ? Object.keys(sampleData.events).length : 0;
-                        localStorage.setItem(dataKey, JSON.stringify(sampleData));
-                        localStorage.setItem('sample-data-loaded-user123', 'success');
-                        window.location.reload();
-                    })
-                    .catch(err => {
-                        localStorage.setItem('sample-data-loaded-user123', 'failed');
-                    });
-                return true; // Data is loading, don't call init yet
-            }
-            
-            return false; // Data exists, safe to call init
-        }
-
         // Initialize
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', function() {
-                const isLoading = checkAndOfferSampleData();
-                if (!isLoading) {
-                    setTimeout(init, 100);
-                }
+                setTimeout(init, 100);
             });
         } else {
-            const isLoading = checkAndOfferSampleData();
-            if (!isLoading) {
-                setTimeout(init, 100);
-            }
+            setTimeout(init, 100);
         }
 
 
