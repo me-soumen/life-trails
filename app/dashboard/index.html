@@ -113,7 +113,6 @@
                         <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                     </svg>
                 </button>
-                <button onclick="window.loadSampleData && window.loadSampleData()" class="btn btn-secondary" style="font-size: 12px; padding: 8px 16px;" title="Load sample family data">📋 Load Sample Data</button>
             </div>
             </div>
             
@@ -682,32 +681,6 @@
             }
         });
 
-        // Function to load sample data
-        function loadSampleData() {
-            if (confirm('This will load sample family data. Do you want to continue?')) {
-                const user = window.auth.getCurrentUser();
-                if (!user || user.userId !== 'user123') {
-                    alert('Sample data is only available for the demo user (user123)');
-                    return;
-                }
-                
-                fetch('data/sample-family.json')
-                    .then(r => {
-                        if (!r.ok) throw new Error('Failed to fetch: ' + r.status);
-                        return r.json();
-                    })
-                    .then(sampleData => {
-                            const dataKey = `life-trails-data-${user.userId}`;
-                            localStorage.setItem(dataKey, JSON.stringify(sampleData));
-                        localStorage.setItem('sample-data-loaded-user123', 'success');
-                            alert('Sample data loaded successfully! The page will reload.');
-                            location.reload();
-                    })
-                    .catch(err => {
-                        alert('Error loading sample data: ' + err.message + '\nMake sure data/sample-family.json exists.');
-                    });
-            }
-        }
 
         // Auto-load sample data for user123
         function checkAndOfferSampleData() {
@@ -773,8 +746,6 @@
             }
         }
 
-        // Expose loadSampleData globally for manual trigger
-        window.loadSampleData = loadSampleData;
 
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
