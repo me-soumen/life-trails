@@ -4,21 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In - Life Trails</title>
+    <link rel="icon" type="image/png" href="../../public/images/favicon.png">
+    <link rel="apple-touch-icon" href="../../public/images/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="../../public/css/main.css">
+    <link rel="stylesheet" href="../../public/css/theme.css">
 </head>
 <body>
     <header>
         <div class="header-container">
-            <a href="index.html" class="logo">
-                <img src="images/logo.png" alt="Life Trails" class="logo-img">
+            <a href="../../" class="logo">
+                <img src="../../public/images/logo.png" alt="Life Trails" class="logo-img">
                 <span>Life Trails</span>
             </a>
             <nav class="header-nav">
-                <a href="index.html" class="btn btn-secondary">Home</a>
+                <a href="../../" class="btn btn-secondary">Home</a>
                 <button class="theme-toggle theme-toggle-light" onclick="window.themeManager.toggle()" aria-label="Toggle theme" data-theme="light">
                     <div class="theme-toggle-track">
                         <div class="theme-toggle-knob">
@@ -111,8 +113,8 @@
         </div>
     </div>
 
-    <script src="js/theme.js"></script>
-    <script src="js/auth.js"></script>
+    <script src="../../public/js/theme.js"></script>
+    <script src="../../public/js/auth.js"></script>
     <script>
         function showAlert(message, type = 'error') {
             const container = document.getElementById('alertContainer');
@@ -142,7 +144,7 @@
             if (result.success) {
                 showAlert('Sign in successful! Redirecting...', 'success');
                 setTimeout(() => {
-                    window.location.href = 'dashboard.html';
+                    window.location.href = '../dashboard/';
                 }, 1000);
             } else {
                 showAlert(result.error || 'Invalid credentials');
@@ -162,7 +164,7 @@
             if (result.success) {
                 showAlert('Account created successfully! Redirecting...', 'success');
                 setTimeout(() => {
-                    window.location.href = 'dashboard.html';
+                    window.location.href = '../dashboard/';
                 }, 1000);
             } else {
                 showAlert(result.error || 'Failed to create account');
@@ -171,7 +173,7 @@
 
         // Check if already signed in
         if (window.auth.isAuthenticated()) {
-            window.location.href = 'dashboard.html';
+            window.location.href = '../dashboard';
         }
     </script>
 </body>

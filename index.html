@@ -4,21 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Life Trails - Document Your Life Journey</title>
+    <link rel="icon" type="image/png" href="public/images/favicon.png">
+    <link rel="apple-touch-icon" href="public/images/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="public/css/main.css">
+    <link rel="stylesheet" href="public/css/theme.css">
 </head>
 <body>
     <header>
         <div class="header-container">
-            <a href="index.html" class="logo">
-                <img src="images/logo.png" alt="Life Trails" class="logo-img">
+            <a href="./" class="logo">
+                <img src="public/images/logo.png" alt="Life Trails" class="logo-img">
                 <span>Life Trails</span>
             </a>
             <nav class="header-nav">
-                <a href="signin.html" class="btn btn-primary">Sign In</a>
+                <a href="app/signin/" class="btn btn-primary">Sign In</a>
                 <button class="theme-toggle theme-toggle-light" onclick="window.themeManager.toggle()" aria-label="Toggle theme" data-theme="light">
                     <div class="theme-toggle-track">
                         <div class="theme-toggle-knob">
@@ -42,7 +44,7 @@
                 <h1>Document Your Life Journey</h1>
                 <p>Create a beautiful timeline of your life events and build your family tree. Preserve memories, celebrate milestones, and share your story with generations to come.</p>
                 <div class="hero-buttons">
-                    <a href="signin.html" class="btn btn-primary">Get Started</a>
+                    <a href="signin" class="btn btn-primary">Get Started</a>
                     <a href="#features" class="btn btn-secondary" style="background: rgba(255,255,255,0.15); color: white; border: 2px solid rgba(255,255,255,0.3); backdrop-filter: blur(10px);">Learn More</a>
                 </div>
             </div>
@@ -137,7 +139,7 @@
         <p>&copy; 2024 Life Trails. Document your journey, preserve your legacy.</p>
     </footer>
 
-    <script src="js/theme.js"></script>
-    <script src="js/app.js"></script>
+    <script src="public/js/theme.js"></script>
+    <script src="public/js/app.js"></script>
 </body>
 </html>

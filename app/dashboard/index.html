@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Life Trails</title>
+    <link rel="icon" type="image/png" href="../../public/images/favicon.png">
+    <link rel="apple-touch-icon" href="../../public/images/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="../../public/css/main.css">
+    <link rel="stylesheet" href="../../public/css/theme.css">
 </head>
 <body>
     <header>
@@ -18,8 +20,8 @@
                 <span></span>
                 <span></span>
             </button>
-            <a href="index.html" class="logo">
-                <img src="images/logo.png" alt="Life Trails" class="logo-img">
+            <a href="../../../" class="logo">
+                <img src="../../public/images/logo.png" alt="Life Trails" class="logo-img">
                 <span>Life Trails</span>
             </a>
             <nav class="header-nav"></nav>
@@ -45,14 +47,14 @@
                 <h3>Menu</h3>
             </div>
             <div class="mobile-menu-content">
-                <a href="add-event.html" class="mobile-menu-item">
+                <a href="../add/event/" class="mobile-menu-item">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="12" y1="5" x2="12" y2="19"></line>
                         <line x1="5" y1="12" x2="19" y2="12"></line>
                     </svg>
                     <span>Add Event</span>
                 </a>
-                <a href="add-family.html" class="mobile-menu-item">
+                <a href="../add/family/" class="mobile-menu-item">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
                         <circle cx="9" cy="7" r="4"></circle>
@@ -61,7 +63,7 @@
                     </svg>
                     <span>Add Family</span>
                 </a>
-                <button onclick="window.auth.signOut(); window.location.href='index.html';" class="mobile-menu-item mobile-menu-btn-item">
+                <button onclick="window.auth.signOut(); window.location.href='../../';" class="mobile-menu-item mobile-menu-btn-item">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
                         <polyline points="16 17 21 12 16 7"></polyline>
@@ -97,7 +99,7 @@
                     </button>
                 </div>
                 <div class="action-buttons desktop-only">
-                <a href="add-event.html" class="btn btn-primary action-emoji-btn" title="Add Event">
+                <a href="../add/event/" class="btn btn-primary action-emoji-btn" title="Add Event">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="12" y1="5" x2="12" y2="19"></line>
                         <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -156,11 +158,11 @@
         </div>
     </div>
 
-    <script src="js/theme.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/events.js"></script>
-    <script src="js/family.js"></script>
-    <script src="js/app.js"></script>
+    <script src="../../public/js/theme.js"></script>
+    <script src="../../public/js/auth.js"></script>
+    <script src="../../public/js/events.js"></script>
+    <script src="../../public/js/family.js"></script>
+    <script src="../../public/js/app.js"></script>
     <script>
         // Check authentication
         if (!window.auth.requireAuth()) {
@@ -259,7 +261,7 @@
                     timeline.innerHTML = `
                         <div class="empty-state">
                             <h3>No events found</h3>
-                            <p>Try adjusting your search terms or <a href="add-event.html">add your first event</a>.</p>
+                            <p>Try adjusting your search terms or <a href="../add/event/">add your first event</a>.</p>
                         </div>
                     `;
                     return;
@@ -511,7 +513,7 @@
                 familyTree.innerHTML = `
                     <div class="empty-state">
                         <h3>No family members added yet</h3>
-                        <p><a href="add-family.html">Add your first family member</a></p>
+                        <p><a href="../add/family/">Add your first family member</a></p>
                     </div>
                 `;
             } else {

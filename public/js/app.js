@@ -38,8 +38,17 @@
             return storedImage; // Base64 data URL
         }
         
-        // Fallback to images folder
-        return `images/${userId}/${escapeHtml(imageName)}`;
+        // Fallback to images folder - adjust path based on current location
+        const currentPath = window.location.pathname;
+        let imageBasePath = 'public/images/';
+        if (currentPath.includes('/app/dashboard/')) {
+            imageBasePath = '../../public/images/';
+        } else if (currentPath.includes('/app/add/')) {
+            imageBasePath = '../../../public/images/';
+        } else if (currentPath.includes('/app/signin/')) {
+            imageBasePath = '../../public/images/';
+        }
+        return `${imageBasePath}${userId}/${escapeHtml(imageName)}`;
     }
 
     // Initialize header navigation
@@ -64,10 +73,30 @@
         }
 
         if (user) {
+            // Determine correct paths based on current location
+            const currentPath = window.location.pathname;
+            let addEventPath = 'app/add/event/';
+            let addFamilyPath = 'app/add/family/';
+            let homePath = './';
+            
+            if (currentPath.includes('/app/dashboard/')) {
+                addEventPath = '../add/event/';
+                addFamilyPath = '../add/family/';
+                homePath = '../../';
+            } else if (currentPath.includes('/app/add/')) {
+                addEventPath = '../event/';
+                addFamilyPath = '../family/';
+                homePath = '../../dashboard/';
+            } else if (currentPath.includes('/app/signin/')) {
+                addEventPath = '../add/event/';
+                addFamilyPath = '../add/family/';
+                homePath = '../../';
+            }
+            
             headerNav.innerHTML = `
-                <a href="add-event.html" class="btn btn-secondary">Add Event</a>
-                <a href="add-family.html" class="btn btn-secondary">Add Family</a>
-                <button onclick="window.auth.signOut(); window.location.href='index.html';" class="btn btn-secondary">Sign Out</button>
+                <a href="${addEventPath}" class="btn btn-secondary">Add Event</a>
+                <a href="${addFamilyPath}" class="btn btn-secondary">Add Family</a>
+                <button onclick="window.auth.signOut(); window.location.href='${homePath}';" class="btn btn-secondary">Sign Out</button>
                 <button class="theme-toggle theme-toggle-light" onclick="window.themeManager.toggle()" aria-label="Toggle theme" data-theme="light">
                     <div class="theme-toggle-track">
                         <div class="theme-toggle-knob">
@@ -83,8 +112,20 @@
                 </button>
             `;
         } else {
+            // Determine correct signin path based on current location
+            const currentPath = window.location.pathname;
+            let signinPath = 'app/signin/';
+            
+            if (currentPath.includes('/app/dashboard/')) {
+                signinPath = '../signin/';
+            } else if (currentPath.includes('/app/add/')) {
+                signinPath = '../../signin/';
+            } else if (currentPath.includes('/app/signin/')) {
+                signinPath = './'; // Already on signin page
+            }
+            
             headerNav.innerHTML = `
-                <a href="signin.html" class="btn btn-primary">Sign In</a>
+                <a href="${signinPath}" class="btn btn-primary">Sign In</a>
                 <button class="theme-toggle theme-toggle-light" onclick="window.themeManager.toggle()" aria-label="Toggle theme" data-theme="light">
                     <div class="theme-toggle-track">
                         <div class="theme-toggle-knob">

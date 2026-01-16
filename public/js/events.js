@@ -54,8 +54,17 @@
             return Promise.resolve(); // Already tried and failed
         }
 
-        // Try to load sample data
-        return fetch('data/sample-family.json')
+        // Try to load sample data - adjust path based on current location
+        const currentPath = window.location.pathname;
+        let dataPath = 'data/sample-family.json';
+        if (currentPath.includes('/app/dashboard/')) {
+            dataPath = '../../../data/sample-family.json';
+        } else if (currentPath.includes('/app/add/')) {
+            dataPath = '../../../../data/sample-family.json';
+        } else if (currentPath.includes('/app/signin/')) {
+            dataPath = '../../../data/sample-family.json';
+        }
+        return fetch(dataPath)
             .then(r => {
                 if (!r.ok) throw new Error('Failed to fetch: ' + r.status);
                 return r.json();
@@ -71,9 +80,9 @@
                 localStorage.setItem('sample-data-loaded-user123', 'success');
                 
                 // Reload page to show data
-                if (window.location.pathname.includes('dashboard.html') || 
-                    window.location.pathname.endsWith('/') ||
-                    window.location.pathname.endsWith('dashboard.html')) {
+                if (window.location.pathname.includes('/app/dashboard') || 
+                    window.location.pathname.includes('/app/dashboard/') ||
+                    window.location.pathname.endsWith('/app/dashboard')) {
                     setTimeout(() => {
                         window.location.reload();
                     }, 100);

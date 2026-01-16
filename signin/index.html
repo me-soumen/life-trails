@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Life Trails</title>
+    <link rel="icon" type="image/png" href="../public/images/favicon.png">
+    <link rel="apple-touch-icon" href="../public/images/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../public/css/main.css">
+    <link rel="stylesheet" href="../public/css/theme.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="../" class="logo">
+                <img src="../public/images/logo.png" alt="Life Trails" class="logo-img">
+                <span>Life Trails</span>
+            </a>
+            <nav class="header-nav">
+                <a href="../" class="btn btn-secondary">Home</a>
+                <button class="theme-toggle theme-toggle-light" onclick="window.themeManager.toggle()" aria-label="Toggle theme" data-theme="light">
+                    <div class="theme-toggle-track">
+                        <div class="theme-toggle-knob">
+                            <svg class="theme-toggle-icon theme-toggle-icon-sun" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/>
+                                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            <svg class="theme-toggle-icon theme-toggle-icon-moon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" fill="none"/>
+                            </svg>
+                        </div>
+                    </div>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="signin-container">
+        <div class="signin-card card">
+            <div class="signin-header">
+                <h1>Welcome Back</h1>
+                <p>Sign in to access your Life Trails</p>
+            </div>
+
+            <div id="alertContainer"></div>
+
+            <form id="signinForm">
+                <div class="form-group">
+                    <label class="form-label" for="email">Email</label>
+                    <input type="email" id="email" class="form-input" placeholder="your@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">Password</label>
+                    <input type="password" id="password" class="form-input" placeholder="Enter your password" required>
+                </div>
+
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">Sign In</button>
+                </div>
+            </form>
+
+            <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border); text-align: center;">
+                <p style="color: var(--text-muted); margin-bottom: 12px;">Don't have an account?</p>
+                <button type="button" class="btn btn-secondary" onclick="showSignUp()">Create Account</button>
+            </div>
+
+            <div id="signupForm" style="display: none; margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border);">
+                <h3 style="margin-bottom: 20px; font-size: 20px;">Create New Account</h3>
+                <form id="signupFormElement">
+                    <div class="form-group">
+                        <label class="form-label" for="signupName">Full Name</label>
+                        <input type="text" id="signupName" class="form-input" placeholder="Your name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="signupEmail">Email</label>
+                        <input type="email" id="signupEmail" class="form-input" placeholder="your@email.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="signupPassword">Password</label>
+                        <input type="password" id="signupPassword" class="form-input" placeholder="Choose a password" required minlength="6">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="signupDOB">Date of Birth</label>
+                            <input type="text" id="signupDOB" class="form-input" placeholder="DD-MM-YYYY" pattern="\d{2}-\d{2}-\d{4}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="signupPlace">Place of Birth</label>
+                            <input type="text" id="signupPlace" class="form-input" placeholder="City" required>
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary" style="flex: 1;">Create Account</button>
+                        <button type="button" class="btn btn-secondary" onclick="hideSignUp()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <div style="margin-top: 32px; padding: 16px; background: var(--bg-secondary); border-radius: 8px; font-size: 13px; color: var(--text-muted);">
+                <strong>Demo Account:</strong><br>
+                Email: demo@lifetrails.com<br>
+                Password: demo123
+            </div>
+        </div>
+    </div>
+
+    <script src="../public/js/theme.js"></script>
+    <script src="../public/js/auth.js"></script>
+    <script>
+        function showAlert(message, type = 'error') {
+            const container = document.getElementById('alertContainer');
+            container.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+
+        function showSignUp() {
+            document.getElementById('signupForm').style.display = 'block';
+            document.getElementById('signinForm').style.display = 'none';
+        }
+
+        function hideSignUp() {
+            document.getElementById('signupForm').style.display = 'none';
+            document.getElementById('signinForm').style.display = 'block';
+        }
+
+        // Sign In Form
+        document.getElementById('signinForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const result = window.auth.signIn(email, password);
+            if (result.success) {
+                showAlert('Sign in successful! Redirecting...', 'success');
+                setTimeout(() => {
+                    window.location.href = '../dashboard/';
+                }, 1000);
+            } else {
+                showAlert(result.error || 'Invalid credentials');
+            }
+        });
+
+        // Sign Up Form
+        document.getElementById('signupFormElement').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const name = document.getElementById('signupName').value;
+            const dateOfBirth = document.getElementById('signupDOB').value;
+            const placeOfBirth = document.getElementById('signupPlace').value;
+
+            const result = window.auth.signUp(email, password, name, dateOfBirth, placeOfBirth);
+            if (result.success) {
+                showAlert('Account created successfully! Redirecting...', 'success');
+                setTimeout(() => {
+                    window.location.href = '../dashboard/';
+                }, 1000);
+            } else {
+                showAlert(result.error || 'Failed to create account');
+            }
+        });
+
+        // Check if already signed in
+        if (window.auth.isAuthenticated()) {
+            window.location.href = '../dashboard/';
+        }
+    </script>
+</body>
+</html>

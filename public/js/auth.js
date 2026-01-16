@@ -98,7 +98,15 @@
 
     function requireAuth() {
         if (!isAuthenticated()) {
-            window.location.href = 'signin.html';
+            const currentPath = window.location.pathname;
+            let signinPath = 'app/signin/';
+            // Adjust path based on current location
+            if (currentPath.includes('/app/dashboard/')) {
+                signinPath = '../signin/';
+            } else if (currentPath.includes('/app/add/')) {
+                signinPath = '../../signin/';
+            }
+            window.location.href = signinPath;
             return false;
         }
         return true;
