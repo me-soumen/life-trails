@@ -227,15 +227,12 @@
             allEvents = window.eventsManager.getAllEvents();
             
             // Debug: Log events and years
-            console.log('Total events loaded:', allEvents.length);
             if (data && data.events) {
                 const yearKeys = Object.keys(data.events);
-                console.log('Years in data:', yearKeys.length, yearKeys.sort((a, b) => b - a));
             }
 
             // Get unique years (reverse chronological)
             const years = [...new Set(allEvents.map(e => e.year))].sort((a, b) => b - a);
-            console.log('Unique years extracted:', years.length, years);
             let selectedYear = years.length > 0 ? years[0] : null; // Default to latest year
 
             function render(filter = '') {
@@ -707,7 +704,6 @@
                             location.reload();
                     })
                     .catch(err => {
-                        console.error('Error loading sample data:', err);
                         alert('Error loading sample data: ' + err.message + '\nMake sure data/sample-family.json exists.');
                     });
             }
@@ -733,20 +729,12 @@
                     const hasFamily = data.family && data.family.length > 0;
                     yearCount = hasEvents ? Object.keys(data.events).length : 0;
                     hasData = hasEvents || hasFamily;
-                    console.log('Existing data found:', {
-                        hasEvents,
-                        hasFamily,
-                        yearCount,
-                        years: hasEvents ? Object.keys(data.events).sort((a, b) => b - a) : []
-                    });
                 } catch (e) {
-                    console.error('Error parsing existing data:', e);
                 }
             }
             
             // If no data or less than 12 years (should have 15), reload
             if (!hasData || yearCount < 12) {
-                console.log('Insufficient data found (years:', yearCount, '), loading complete sample data...');
                 // Clear old data flag to force reload
                 localStorage.removeItem('sample-data-loaded-user123');
                 // Try to load sample data immediately
@@ -757,17 +745,11 @@
                     })
                     .then(sampleData => {
                         const loadedYearCount = sampleData.events ? Object.keys(sampleData.events).length : 0;
-                        console.log('Sample data loaded successfully:', {
-                            yearCount: loadedYearCount,
-                            years: sampleData.events ? Object.keys(sampleData.events).sort((a, b) => b - a) : []
-                        });
                         localStorage.setItem(dataKey, JSON.stringify(sampleData));
                         localStorage.setItem('sample-data-loaded-user123', 'success');
-                        console.log('Reloading page to display data...');
                         window.location.reload();
                     })
                     .catch(err => {
-                        console.error('Error loading sample data:', err);
                         localStorage.setItem('sample-data-loaded-user123', 'failed');
                     });
                 return true; // Data is loading, don't call init yet
@@ -949,7 +931,8 @@
     <footer class="mobile-footer mobile-only">
         <div class="footer-content">
             <div class="footer-copyright">
-                <p>&copy; 2024 <a href="https://trails.click" target="_blank" rel="noopener noreferrer" class="footer-link-text">Trails Labs</a>. All rights reserved.</p>
+                <p>Life Trails. Document your journey, preserve your legacy.</p>
+                <p>&copy; 2026 <a href="https://trails.click" target="_blank" rel="noopener noreferrer" class="footer-link-text">Trails Labs</a>. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -957,7 +940,8 @@
     <footer class="desktop-footer desktop-only">
         <div class="footer-content">
             <div class="footer-copyright">
-                <p>&copy; 2024 <a href="https://trails.click" target="_blank" rel="noopener noreferrer" class="footer-link-text">Trails Labs</a>. All rights reserved.</p>
+                <p>Life Trails. Document your journey, preserve your legacy.</p>
+                <p>&copy; 2026 <a href="https://trails.click" target="_blank" rel="noopener noreferrer" class="footer-link-text">Trails Labs</a>. All rights reserved.</p>
             </div>
         </div>
     </footer>

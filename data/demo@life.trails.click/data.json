@@ -1,6 +1,7 @@
 {
-  "id": "user123",
+  "id": "9f6c7e2a-3b6d-4f1a-9c9e-8c2e9d7a4b31",
   "name": "Sam",
+  "email": "demo@life.trails.click",
   "dateOfBirth": "02-09-1993",
   "placeOfBirth": "Durgapur",
   "family": [
@@ -8,105 +9,105 @@
       "name": "Sam",
       "relation": "Self",
       "level": 0,
-      "image": "birth.png",
+      "image": "3a9d6f2e-8b4c-4f17-ae5d-9c1b7e2a6d48.png",
       "nickname": null
     },
     {
       "name": "John",
       "relation": "Father",
       "level": -1,
-      "image": "father.png",
+      "image": "7b2e9c14-6f3a-4d8e-a5c1-0e9f2a6d3b87.png",
       "nickname": null
     },
     {
       "name": "Mary",
       "relation": "Mother",
       "level": -1,
-      "image": "birth.png",
+      "image": "c4a1f5d9-2e8b-4a7c-b6e3-1f9d8a2c7b54.png",
       "nickname": null
     },
     {
       "name": "Robert",
       "relation": "Grand Father (Father Side)",
       "level": -2,
-      "image": "father.png",
+      "image": "e1a7c9b3-5d2f-4b8a-9e64-2c3f8a7d1b90.png",
       "nickname": null
     },
     {
       "name": "Elizabeth",
       "relation": "Grand Mother (Father Side)",
       "level": -2,
-      "image": "birth.png",
+      "image": "7b2e9c14-6f3a-4d8e-a5c1-0e9f2a6d3b87.png",
       "nickname": null
     },
     {
       "name": "William",
       "relation": "Grand Father (Mother Side)",
       "level": -2,
-      "image": "father.png",
+      "image": "c4a1f5d9-2e8b-4a7c-b6e3-1f9d8a2c7b54.png",
       "nickname": null
     },
     {
       "name": "Anna",
       "relation": "Grand Mother (Mother Side)",
       "level": -2,
-      "image": "birth.png",
+      "image": "e1a7c9b3-5d2f-4b8a-9e64-2c3f8a7d1b90.png",
       "nickname": null
     },
     {
       "name": "Mike",
       "relation": "Brother",
       "level": 0,
-      "image": "birth.png",
+      "image": "7b2e9c14-6f3a-4d8e-a5c1-0e9f2a6d3b87.png",
       "nickname": null
     },
     {
       "name": "Sarah",
       "relation": "Sister",
       "level": 0,
-      "image": "birth.png",
+      "image": "c4a1f5d9-2e8b-4a7c-b6e3-1f9d8a2c7b54.png",
       "nickname": null
     },
     {
       "name": "Emma",
       "relation": "Spouse",
       "level": 0,
-      "image": "birth.png",
+      "image": "e1a7c9b3-5d2f-4b8a-9e64-2c3f8a7d1b90.png",
       "nickname": null
     },
     {
       "name": "Alex",
       "relation": "Son",
       "level": 1,
-      "image": "birth.png",
+      "image": "3a9d6f2e-8b4c-4f17-ae5d-9c1b7e2a6d48.png",
       "nickname": null
     },
     {
       "name": "Sophia",
       "relation": "Daughter",
       "level": 1,
-      "image": "birth.png",
+      "image": "7b2e9c14-6f3a-4d8e-a5c1-0e9f2a6d3b87.png",
       "nickname": null
     },
     {
       "name": "David",
       "relation": "Others",
       "level": 0,
-      "image": "birth.png",
+      "image": "c4a1f5d9-2e8b-4a7c-b6e3-1f9d8a2c7b54.png",
       "nickname": "Cousin"
     },
     {
       "name": "Lisa",
       "relation": "Others",
       "level": 0,
-      "image": "birth.png",
+      "image": "e1a7c9b3-5d2f-4b8a-9e64-2c3f8a7d1b90.png",
       "nickname": "Best Friend"
     },
     {
       "name": "Tom",
       "relation": "Others",
       "level": -1,
-      "image": "father.png",
+      "image": "3a9d6f2e-8b4c-4f17-ae5d-9c1b7e2a6d48.png",
       "nickname": "Uncle"
     }
   ],
@@ -117,7 +118,7 @@
         "time": "2:30 AM",
         "title": "Life Trails Created",
         "description": "Started documenting life digitally. This marks the beginning of a new journey to preserve memories and family history.",
-        "images": ["birth.png"]
+        "images": ["3a9d6f2e-8b4c-4f17-ae5d-9c1b7e2a6d48.png", "7b2e9c14-6f3a-4d8e-a5c1-0e9f2a6d3b87.png"]
       },
       {
         "date": "2024-10-15",
@@ -125,7 +126,7 @@
         "title": "Autumn Festival Celebration",
         "description": "Celebrated the autumn festival with family. Traditional food, decorations, and quality time together.",
         "place": "Home",
-        "images": []
+        "images": ["c4a1f5d9-2e8b-4a7c-b6e3-1f9d8a2c7b54.png"]
       },
       {
         "date": "2024-09-20",
@@ -141,7 +142,7 @@
         "title": "Family Reunion",
         "description": "Annual family reunion with relatives from all over. Great food, stories, and laughter.",
         "place": "Grandparents' House",
-        "images": []
+        "images": ["e1a7c9b3-5d2f-4b8a-9e64-2c3f8a7d1b90.png", "3a9d6f2e-8b4c-4f17-ae5d-9c1b7e2a6d48.png"]
       },
       {
         "date": "2024-07-04",
@@ -165,7 +166,7 @@
         "title": "Mother's Day",
         "description": "Celebrated Mother's Day with a special brunch and heartfelt gifts. Mom was very happy.",
         "place": "Favorite Restaurant",
-        "images": []
+        "images": ["7b2e9c14-6f3a-4d8e-a5c1-0e9f2a6d3b87.png"]
       },
       {
         "date": "2024-04-14",
@@ -189,7 +190,7 @@
         "title": "Valentine's Day Dinner",
         "description": "Romantic dinner with loved one. Great food, great company, great memories.",
         "place": "Fine Dining Restaurant",
-        "images": []
+        "images": ["c4a1f5d9-2e8b-4a7c-b6e3-1f9d8a2c7b54.png", "e1a7c9b3-5d2f-4b8a-9e64-2c3f8a7d1b90.png"]
       },
       {
         "date": "2024-01-01",
@@ -207,7 +208,7 @@
         "title": "Christmas Celebration",
         "description": "Celebrated Christmas with family. Exchanged gifts, shared meals, and created beautiful memories.",
         "place": "Home",
-        "images": []
+        "images": ["3a9d6f2e-8b4c-4f17-ae5d-9c1b7e2a6d48.png"]
       },
       {
         "date": "2023-11-28",
@@ -239,7 +240,7 @@
         "title": "Summer Road Trip",
         "description": "Epic road trip with friends. Visited multiple cities and created unforgettable memories.",
         "place": "Various Locations",
-        "images": []
+        "images": ["7b2e9c14-6f3a-4d8e-a5c1-0e9f2a6d3b87.png", "c4a1f5d9-2e8b-4a7c-b6e3-1f9d8a2c7b54.png"]
       },
       {
         "date": "2023-07-04",
@@ -263,7 +264,7 @@
         "title": "Birthday Celebration",
         "description": "Celebrated another year of life. Surrounded by loved ones and good wishes.",
         "place": "Favorite Restaurant",
-        "images": []
+        "images": ["e1a7c9b3-5d2f-4b8a-9e64-2c3f8a7d1b90.png"]
       },
       {
         "date": "2023-04-10",

@@ -31,24 +31,64 @@
     function getImageUrl(userId, imageName) {
         if (!imageName) return '';
         
-        // First check localStorage for uploaded images
-        const imageKey = `life-trails-image-${userId}-${imageName}`;
-        const storedImage = localStorage.getItem(imageKey);
-        if (storedImage) {
-            return storedImage; // Base64 data URL
+        // Get current user to check if this is a demo account
+        const currentUser = window.auth && window.auth.getCurrentUser ? window.auth.getCurrentUser() : null;
+        
+        // Always check if current user is demo account first (check for both possible demo emails)
+        const isDemoAccount = currentUser && (
+            currentUser.email === 'demo@life.trails.click' || 
+            currentUser.email === 'demo@lifetrails.com'
+        );
+        
+        // Adjust path based on current location
+        const currentPath = window.location.pathname;
+        let imagePath;
+        
+        if (isDemoAccount) {
+            // Demo account: images are in data/{userEmail}/images/{imageName}
+            // Always use demo@life.trails.click for demo account paths
+            const demoEmail = 'demo@life.trails.click';
+            
+            // First check localStorage for uploaded images (with demo email)
+            const imageKey = `life-trails-image-${demoEmail}-${imageName}`;
+            const storedImage = localStorage.getItem(imageKey);
+            if (storedImage) {
+                return storedImage; // Base64 data URL
+            }
+            
+            // Build path to data/{email}/images/{imageName}
+            if (currentPath.includes('/app/dashboard/')) {
+                imagePath = `../../../data/${encodeURIComponent(demoEmail)}/images/${escapeHtml(imageName)}`;
+            } else if (currentPath.includes('/app/add/')) {
+                imagePath = `../../../../data/${encodeURIComponent(demoEmail)}/images/${escapeHtml(imageName)}`;
+            } else if (currentPath.includes('/app/signin/')) {
+                imagePath = `../../../data/${encodeURIComponent(demoEmail)}/images/${escapeHtml(imageName)}`;
+            } else {
+                imagePath = `data/${encodeURIComponent(demoEmail)}/images/${escapeHtml(imageName)}`;
+            }
+        } else {
+            // Regular account: images are in public/images/{userId}/{imageName}
+            const actualUserId = userId || 'default';
+            
+            // First check localStorage for uploaded images
+            const imageKey = `life-trails-image-${actualUserId}-${imageName}`;
+            const storedImage = localStorage.getItem(imageKey);
+            if (storedImage) {
+                return storedImage; // Base64 data URL
+            }
+            
+            if (currentPath.includes('/app/dashboard/')) {
+                imagePath = `../../public/images/${actualUserId}/${escapeHtml(imageName)}`;
+            } else if (currentPath.includes('/app/add/')) {
+                imagePath = `../../../public/images/${actualUserId}/${escapeHtml(imageName)}`;
+            } else if (currentPath.includes('/app/signin/')) {
+                imagePath = `../../public/images/${actualUserId}/${escapeHtml(imageName)}`;
+            } else {
+                imagePath = `public/images/${actualUserId}/${escapeHtml(imageName)}`;
+            }
         }
         
-        // Fallback to images folder - adjust path based on current location
-        const currentPath = window.location.pathname;
-        let imageBasePath = 'public/images/';
-        if (currentPath.includes('/app/dashboard/')) {
-            imageBasePath = '../../public/images/';
-        } else if (currentPath.includes('/app/add/')) {
-            imageBasePath = '../../../public/images/';
-        } else if (currentPath.includes('/app/signin/')) {
-            imageBasePath = '../../public/images/';
-        }
-        return `${imageBasePath}${userId}/${escapeHtml(imageName)}`;
+        return imagePath;
     }
 
     // Initialize header navigation

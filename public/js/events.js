@@ -24,24 +24,36 @@
         };
     }
 
-    // Load sample data for user123 if not already loaded
-    function loadSampleDataIfNeeded() {
+    // Load demo data from data/{emailId}/data.json
+    function loadDemoDataIfNeeded() {
         const user = window.auth.getCurrentUser();
-        if (!user || user.userId !== 'user123') {
+        if (!user || !user.isDemo) {
             return Promise.resolve();
         }
 
         const dataKey = `life-trails-data-${user.userId}`;
         const existingData = localStorage.getItem(dataKey);
         
-        // If data already exists with content, don't load
+        // Check if we need to reload data (if family members have old image references)
+        let needsReload = false;
         if (existingData) {
             try {
                 const data = JSON.parse(existingData);
                 const hasEvents = data.events && Object.keys(data.events).length > 0;
                 const hasFamily = data.family && data.family.length > 0;
-                if (hasEvents || hasFamily) {
-                    return Promise.resolve(); // Data already loaded
+                
+                // Check if family has old image references (birth.png or father.png)
+                if (hasFamily && data.family.length > 0) {
+                    const hasOldImages = data.family.some(member => 
+                        member.image === 'birth.png' || member.image === 'father.png'
+                    );
+                    if (hasOldImages) {
+                        needsReload = true;
+                    }
+                }
+                
+                if ((hasEvents || hasFamily) && !needsReload) {
+                    return Promise.resolve(); // Data already loaded and up to date
                 }
             } catch (e) {
                 // Invalid data, continue to load
@@ -49,21 +61,29 @@
         }
 
         // Check if we've already tried to load (and failed)
-        const sampleDataLoaded = localStorage.getItem('sample-data-loaded-user123');
-        if (sampleDataLoaded === 'failed') {
-            return Promise.resolve(); // Already tried and failed
+        const loadKey = `demo-data-loaded-${user.userId}`;
+        const sampleDataLoaded = localStorage.getItem(loadKey);
+        
+        // If we need to reload (old images found), clear the load key
+        if (needsReload) {
+            localStorage.removeItem(loadKey);
+        }
+        
+        if (sampleDataLoaded === 'failed' && !needsReload) {
+            return Promise.resolve(); // Already tried and failed (and no reload needed)
         }
 
-        // Try to load sample data - adjust path based on current location
+        // Try to load demo data from data/{emailId}/data.json
         const currentPath = window.location.pathname;
-        let dataPath = 'data/sample-family.json';
+        let dataPath = `data/${encodeURIComponent(user.userId)}/data.json`;
         if (currentPath.includes('/app/dashboard/')) {
-            dataPath = '../../../data/sample-family.json';
+            dataPath = `../../../data/${encodeURIComponent(user.userId)}/data.json`;
         } else if (currentPath.includes('/app/add/')) {
-            dataPath = '../../../../data/sample-family.json';
+            dataPath = `../../../../data/${encodeURIComponent(user.userId)}/data.json`;
         } else if (currentPath.includes('/app/signin/')) {
-            dataPath = '../../../data/sample-family.json';
+            dataPath = `../../../data/${encodeURIComponent(user.userId)}/data.json`;
         }
+
         return fetch(dataPath)
             .then(r => {
                 if (!r.ok) throw new Error('Failed to fetch: ' + r.status);
@@ -75,9 +95,11 @@
                     throw new Error('Invalid data format');
                 }
                 
+                // Use image names directly from JSON file (no random assignment)
+                // Images are already specified in the events' images arrays
                 // Store in localStorage
                 localStorage.setItem(dataKey, JSON.stringify(sampleData));
-                localStorage.setItem('sample-data-loaded-user123', 'success');
+                localStorage.setItem(loadKey, 'success');
                 
                 // Reload page to show data
                 if (window.location.pathname.includes('/app/dashboard') || 
@@ -89,8 +111,7 @@
                 }
             })
             .catch(err => {
-                console.error('Error loading sample data:', err);
-                localStorage.setItem('sample-data-loaded-user123', 'failed');
+                localStorage.setItem(loadKey, 'failed');
             });
     }
 
@@ -163,15 +184,15 @@
         getAllEvents,
         addEvent,
         deleteEvent,
-        loadSampleDataIfNeeded
+        loadDemoDataIfNeeded
     };
 
-    // Auto-load sample data on initialization if needed
+    // Auto-load demo data on initialization if needed
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(loadSampleDataIfNeeded, 100);
+            setTimeout(loadDemoDataIfNeeded, 100);
         });
     } else {
-        setTimeout(loadSampleDataIfNeeded, 100);
+        setTimeout(loadDemoDataIfNeeded, 100);
     }
 })();

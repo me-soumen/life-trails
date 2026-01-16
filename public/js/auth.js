@@ -7,16 +7,31 @@
 
     function initUsers() {
         if (!localStorage.getItem(USERS_KEY)) {
-            // Default user for demo
+            // Default user for demo - using demo@life.trails.click
             const defaultUser = {
-                id: 'user123',
-                email: 'demo@lifetrails.com',
+                id: 'demo@life.trails.click',
+                email: 'demo@life.trails.click',
                 password: 'demo123',
                 name: 'Sam',
                 dateOfBirth: '02-09-1993',
                 placeOfBirth: 'Durgapur'
             };
             localStorage.setItem(USERS_KEY, JSON.stringify([defaultUser]));
+        } else {
+            // Update old demo user if it exists with wrong email/id
+            const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
+            const oldDemoIndex = users.findIndex(u => u.email === 'demo@lifetrails.com');
+            if (oldDemoIndex !== -1) {
+                users[oldDemoIndex] = {
+                    id: 'demo@life.trails.click',
+                    email: 'demo@life.trails.click',
+                    password: users[oldDemoIndex].password || 'demo123',
+                    name: users[oldDemoIndex].name || 'Sam',
+                    dateOfBirth: users[oldDemoIndex].dateOfBirth || '02-09-1993',
+                    placeOfBirth: users[oldDemoIndex].placeOfBirth || 'Durgapur'
+                };
+                localStorage.setItem(USERS_KEY, JSON.stringify(users));
+            }
         }
     }
 
@@ -34,11 +49,16 @@
         const user = users.find(u => u.email === email && u.password === password);
         
         if (user) {
+            // For demo accounts, use email as userId to match data folder structure
+            const isDemoEmail = email === 'demo@life.trails.click' || email === 'demo@lifetrails.com';
+            const userId = isDemoEmail ? 'demo@life.trails.click' : user.id;
+            
             const authData = {
-                userId: user.id,
-                email: user.email,
+                userId: userId,
+                email: user.email === 'demo@lifetrails.com' ? 'demo@life.trails.click' : user.email,
                 name: user.name,
-                timestamp: Date.now()
+                timestamp: Date.now(),
+                isDemo: isDemoEmail
             };
             localStorage.setItem(AUTH_KEY, JSON.stringify(authData));
             return { success: true, user: authData };
@@ -86,6 +106,16 @@
                 signOut();
                 return null;
             }
+            
+            // Fix old demo account data: if email is demo@life.trails.click or demo@lifetrails.com, fix userId
+            if ((auth.email === 'demo@life.trails.click' || auth.email === 'demo@lifetrails.com') && 
+                auth.userId !== 'demo@life.trails.click') {
+                auth.userId = 'demo@life.trails.click';
+                auth.email = 'demo@life.trails.click';
+                auth.isDemo = true;
+                localStorage.setItem(AUTH_KEY, JSON.stringify(auth));
+            }
+            
             return auth;
         } catch (e) {
             return null;
