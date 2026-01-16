@@ -49,6 +49,20 @@
         
         if (!headerNav) return;
 
+        // Check if mobile view
+        const isMobile = window.innerWidth <= 768;
+        
+        // Don't populate header-nav on mobile - completely remove content
+        if (isMobile) {
+            headerNav.innerHTML = '';
+            headerNav.style.display = 'none';
+            headerNav.style.width = '0';
+            headerNav.style.height = '0';
+            headerNav.style.overflow = 'hidden';
+            headerNav.style.visibility = 'hidden';
+            return;
+        }
+
         if (user) {
             headerNav.innerHTML = `
                 <a href="dashboard.html" class="btn btn-secondary">Dashboard</a>
@@ -83,6 +97,13 @@
                 </button>
             `;
         }
+        
+        // Re-run on resize
+        let resizeTimer;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(initHeader, 250);
+        });
     }
 
     // Export utilities

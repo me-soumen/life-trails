@@ -18,26 +18,68 @@
                 <span>Life Trails</span>
             </a>
             <nav class="header-nav"></nav>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu" style="display: none;">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+        <div class="mobile-menu-backdrop" id="mobileMenuBackdrop"></div>
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-menu-header">
+                <h3>Menu</h3>
+                <button class="mobile-menu-close" id="mobileMenuClose" onclick="closeMobileMenu()" aria-label="Close menu">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="mobile-menu-content">
+                <a href="add-event.html" class="mobile-menu-item">➕ Add Event</a>
+                <a href="add-family.html" class="mobile-menu-item">👨‍👩‍👦 Add Family</a>
+                <button onclick="window.auth.signOut(); window.location.href='index.html';" class="mobile-menu-item mobile-menu-btn-item">Sign Out</button>
+            </div>
         </div>
     </header>
 
     <div class="dashboard-layout">
-        <aside>
-            <h3>Years</h3>
-            <div id="yearNav"></div>
+        <!-- Desktop: Left Sidebar for Years -->
+        <aside class="years-sidebar desktop-only" id="yearsSidebar">
+            <div class="years-sidebar-content">
+                <div class="years-sidebar-title">Years</div>
+                <nav class="years-nav" id="yearNav"></nav>
+            </div>
         </aside>
 
         <div class="dashboard-main">
             <div class="dashboard-header">
                 <div class="profile" id="profile"></div>
-            <div class="action-buttons">
-                <a href="add-event.html" class="btn btn-primary">➕ Add Event</a>
-                <button onclick="openFamily()" class="btn btn-secondary">👨‍👩‍👦 View Family</button>
-                <button onclick="window.loadSampleData && window.loadSampleData()" class="btn btn-secondary" style="font-size: 12px; padding: 8px 16px;" title="Load sample family data">📋 Load Sample Data</button>
-            </div>
-                <div class="search">
-                    <input id="search" type="text" placeholder="Search by year, date, title, or description..." autocomplete="off" />
+                <!-- Mobile: View Family Button (emoji only) - Right side of title -->
+                <div class="mobile-family-btn mobile-only">
+                    <button onclick="openFamily()" class="btn btn-primary family-emoji-btn" title="View Family">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </button>
                 </div>
+                <div class="action-buttons desktop-only">
+                    <a href="add-event.html" class="btn btn-primary">➕ Add Event</a>
+                    <button onclick="openFamily()" class="btn btn-secondary">👨‍👩‍👦 View Family</button>
+                    <button onclick="window.loadSampleData && window.loadSampleData()" class="btn btn-secondary" style="font-size: 12px; padding: 8px 16px;" title="Load sample family data">📋 Load Sample Data</button>
+                </div>
+            </div>
+            
+            <div class="search">
+                <input id="search" type="text" placeholder="Search by year, date, title, or description..." autocomplete="off" />
+            </div>
+
+            <!-- Mobile: Horizontal Years Strip -->
+            <div class="years-strip-container mobile-only">
+                <div class="years-strip" id="yearNavMobile"></div>
             </div>
 
             <div class="timeline-container">
@@ -45,6 +87,13 @@
             </div>
         </div>
     </div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top" onclick="scrollToTop()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 15l-6-6-6 6"/>
+        </svg>
+    </button>
 
     <!-- Image Modal -->
     <div class="modal" id="imageModal">
@@ -82,10 +131,12 @@
             const user = window.auth.getCurrentUser();
             if (!user) return;
 
+            // Get data
             const data = window.eventsManager.getUserData();
             const profile = document.getElementById('profile');
             const timeline = document.getElementById('timeline');
-            const yearNav = document.getElementById('yearNav');
+            const yearNav = document.getElementById('yearNav'); // Desktop sidebar
+            const yearNavMobile = document.getElementById('yearNavMobile'); // Mobile strip
             const search = document.getElementById('search');
 
             // Render profile
@@ -99,13 +150,23 @@
 
             // Get all events
             allEvents = window.eventsManager.getAllEvents();
+            
+            // Debug: Log events and years
+            console.log('Total events loaded:', allEvents.length);
+            if (data && data.events) {
+                const yearKeys = Object.keys(data.events);
+                console.log('Years in data:', yearKeys.length, yearKeys.sort((a, b) => b - a));
+            }
 
             // Get unique years (reverse chronological)
             const years = [...new Set(allEvents.map(e => e.year))].sort((a, b) => b - a);
+            console.log('Unique years extracted:', years.length, years);
+            let selectedYear = years.length > 0 ? years[0] : null; // Default to latest year
 
             function render(filter = '') {
                 timeline.innerHTML = '';
-                yearNav.innerHTML = '';
+                if (yearNav) yearNav.innerHTML = '';
+                if (yearNavMobile) yearNavMobile.innerHTML = '';
 
                 // Filter events
                 const filteredEvents = filter
@@ -140,11 +201,32 @@
                     eventsByYear[event.year].push(event);
                 });
 
-                // Render year navigation
-                Object.keys(eventsByYear).sort((a, b) => b - a).forEach(year => {
+                // Get sorted years
+                const sortedYears = Object.keys(eventsByYear).sort((a, b) => b - a);
+                
+                // If no year selected or selected year not in filtered results, select first year
+                if (!selectedYear || !sortedYears.includes(selectedYear)) {
+                    selectedYear = sortedYears.length > 0 ? sortedYears[0] : null;
+                }
+
+                // Render year navigation (desktop sidebar and mobile strip)
+                sortedYears.forEach(year => {
                     const yearId = `year-${year}`;
-                    yearNav.innerHTML += `<a class="year-link" href="#${yearId}">${year}</a>`;
+                    const isSelected = year === selectedYear;
+                    const yearLink = `<a class="year-link ${isSelected ? 'active' : ''}" href="#${yearId}" data-year="${year}">${year}</a>`;
+                    if (yearNav) yearNav.innerHTML += yearLink;
+                    if (yearNavMobile) yearNavMobile.innerHTML += yearLink;
                 });
+
+                // Scroll to selected year (mobile strip only)
+                if (selectedYear && yearNavMobile) {
+                    setTimeout(() => {
+                        const activeLink = yearNavMobile.querySelector(`.year-link.active`);
+                        if (activeLink) {
+                            activeLink.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                        }
+                    }, 100);
+                }
 
                 // Render timeline
                 Object.keys(eventsByYear).sort((a, b) => b - a).forEach(year => {
@@ -235,17 +317,67 @@
                 render(e.target.value);
             });
 
-            // Smooth scroll for year links
-            yearNav.addEventListener('click', (e) => {
+            // Handle year link clicks (both desktop and mobile)
+            function handleYearClick(e) {
                 if (e.target.classList.contains('year-link')) {
                     e.preventDefault();
+                    const clickedYear = e.target.getAttribute('data-year');
+                    
+                    // Update selected year
+                    selectedYear = clickedYear;
+                    
+                    // Update active state in both navs
+                    if (yearNav) {
+                        yearNav.querySelectorAll('.year-link').forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('data-year') === clickedYear) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                    if (yearNavMobile) {
+                        yearNavMobile.querySelectorAll('.year-link').forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('data-year') === clickedYear) {
+                                link.classList.add('active');
+                            }
+                        });
+                        // Scroll to selected year in mobile strip
+                        e.target.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                    }
+                    
+                    // Scroll to year section in timeline
                     const targetId = e.target.getAttribute('href').substring(1);
                     const targetElement = document.getElementById(targetId);
                     if (targetElement) {
                         targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }
                 }
-            });
+            }
+            
+            if (yearNav) {
+                yearNav.addEventListener('click', handleYearClick);
+            }
+            if (yearNavMobile) {
+                yearNavMobile.addEventListener('click', handleYearClick);
+            }
+
+            // Auto-scroll to latest year on initial load (mobile only)
+            if (selectedYear && yearNavMobile) {
+                setTimeout(() => {
+                    const activeLink = yearNavMobile.querySelector(`.year-link.active`);
+                    if (activeLink) {
+                        activeLink.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                        const targetId = activeLink.getAttribute('href').substring(1);
+                        const targetElement = document.getElementById(targetId);
+                        if (targetElement) {
+                            setTimeout(() => {
+                                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }, 300);
+                        }
+                    }
+                }, 200);
+            }
 
             render();
         }
@@ -461,49 +593,107 @@
         // Function to load sample data
         function loadSampleData() {
             if (confirm('This will load sample family data. Do you want to continue?')) {
+                const user = window.auth.getCurrentUser();
+                if (!user || user.userId !== 'user123') {
+                    alert('Sample data is only available for the demo user (user123)');
+                    return;
+                }
+                
                 fetch('data/sample-family.json')
-                    .then(r => r.json())
+                    .then(r => {
+                        if (!r.ok) throw new Error('Failed to fetch: ' + r.status);
+                        return r.json();
+                    })
                     .then(sampleData => {
-                        const user = window.auth.getCurrentUser();
-                        if (user && user.userId === 'user123') {
-                            const dataKey = `life-trails-data-${user.userId}`;
-                            localStorage.setItem(dataKey, JSON.stringify(sampleData));
-                            alert('Sample data loaded successfully! The page will reload.');
-                            location.reload();
-                        } else {
-                            alert('Sample data is only available for the demo user (user123)');
-                        }
+                        const dataKey = `life-trails-data-${user.userId}`;
+                        localStorage.setItem(dataKey, JSON.stringify(sampleData));
+                        localStorage.setItem('sample-data-loaded-user123', 'success');
+                        alert('Sample data loaded successfully! The page will reload.');
+                        location.reload();
                     })
                     .catch(err => {
                         console.error('Error loading sample data:', err);
-                        alert('Error loading sample data. Make sure data/sample-family.json exists.');
+                        alert('Error loading sample data: ' + err.message + '\nMake sure data/sample-family.json exists.');
                     });
             }
         }
 
-        // Check if user has no data and offer to load sample
+        // Auto-load sample data for user123
         function checkAndOfferSampleData() {
             const user = window.auth.getCurrentUser();
-            if (user && user.userId === 'user123') {
-                const data = window.eventsManager.getUserData();
-                if (!data.family || data.family.length === 0) {
-                    const loadSample = confirm('No family data found. Would you like to load sample family data?');
-                    if (loadSample) {
-                        loadSampleData();
-                    }
+            if (!user || user.userId !== 'user123') {
+                return false;
+            }
+            
+            const dataKey = `life-trails-data-${user.userId}`;
+            const existingData = localStorage.getItem(dataKey);
+            
+            // Check if we have valid data with all years
+            let hasData = false;
+            let yearCount = 0;
+            if (existingData) {
+                try {
+                    const data = JSON.parse(existingData);
+                    const hasEvents = data.events && Object.keys(data.events).length > 0;
+                    const hasFamily = data.family && data.family.length > 0;
+                    yearCount = hasEvents ? Object.keys(data.events).length : 0;
+                    hasData = hasEvents || hasFamily;
+                    console.log('Existing data found:', {
+                        hasEvents,
+                        hasFamily,
+                        yearCount,
+                        years: hasEvents ? Object.keys(data.events).sort((a, b) => b - a) : []
+                    });
+                } catch (e) {
+                    console.error('Error parsing existing data:', e);
                 }
             }
+            
+            // If no data or less than 12 years (should have 15), reload
+            if (!hasData || yearCount < 12) {
+                console.log('Insufficient data found (years:', yearCount, '), loading complete sample data...');
+                // Clear old data flag to force reload
+                localStorage.removeItem('sample-data-loaded-user123');
+                // Try to load sample data immediately
+                fetch('data/sample-family.json')
+                    .then(r => {
+                        if (!r.ok) throw new Error('Failed to fetch: ' + r.status);
+                        return r.json();
+                    })
+                    .then(sampleData => {
+                        const loadedYearCount = sampleData.events ? Object.keys(sampleData.events).length : 0;
+                        console.log('Sample data loaded successfully:', {
+                            yearCount: loadedYearCount,
+                            years: sampleData.events ? Object.keys(sampleData.events).sort((a, b) => b - a) : []
+                        });
+                        localStorage.setItem(dataKey, JSON.stringify(sampleData));
+                        localStorage.setItem('sample-data-loaded-user123', 'success');
+                        console.log('Reloading page to display data...');
+                        window.location.reload();
+                    })
+                    .catch(err => {
+                        console.error('Error loading sample data:', err);
+                        localStorage.setItem('sample-data-loaded-user123', 'failed');
+                    });
+                return true; // Data is loading, don't call init yet
+            }
+            
+            return false; // Data exists, safe to call init
         }
 
         // Initialize
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', function() {
-                init();
-                checkAndOfferSampleData();
+                const isLoading = checkAndOfferSampleData();
+                if (!isLoading) {
+                    setTimeout(init, 100);
+                }
             });
         } else {
-            init();
-            checkAndOfferSampleData();
+            const isLoading = checkAndOfferSampleData();
+            if (!isLoading) {
+                setTimeout(init, 100);
+            }
         }
 
         // Expose loadSampleData globally for manual trigger
@@ -514,8 +704,133 @@
             if (e.key === 'Escape') {
                 closeImageModal();
                 closeFamily();
+                closeMobileMenu();
             }
         });
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileMenuBackdrop = document.getElementById('mobileMenuBackdrop');
+
+        // Check if mobile viewport
+        function isMobileView() {
+            return window.innerWidth <= 768;
+        }
+
+        // Show/hide mobile menu button based on viewport
+        function updateMobileMenuButton() {
+            if (mobileMenuBtn) {
+                if (isMobileView()) {
+                    mobileMenuBtn.style.display = 'flex';
+                    mobileMenuBtn.style.visibility = 'visible';
+                    mobileMenuBtn.style.opacity = '1';
+                } else {
+                    mobileMenuBtn.style.display = 'none';
+                }
+            }
+        }
+
+        // Initial check
+        updateMobileMenuButton();
+        window.addEventListener('resize', updateMobileMenuButton);
+
+        function toggleMobileMenu() {
+            if (!mobileMenu || !mobileMenuBtn) return;
+            const isActive = mobileMenu.classList.contains('active');
+            mobileMenu.classList.toggle('active');
+            mobileMenuBtn.classList.toggle('active');
+            if (mobileMenuBackdrop) {
+                mobileMenuBackdrop.classList.toggle('active');
+            }
+            document.body.style.overflow = !isActive ? 'hidden' : '';
+        }
+
+        function closeMobileMenu() {
+            if (!mobileMenu || !mobileMenuBtn) return;
+            mobileMenu.classList.remove('active');
+            mobileMenuBtn.classList.remove('active');
+            if (mobileMenuBackdrop) {
+                mobileMenuBackdrop.classList.remove('active');
+            }
+            document.body.style.overflow = '';
+        }
+
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleMobileMenu();
+            });
+            // Force styles
+            if (isMobileView()) {
+                mobileMenuBtn.style.display = 'flex';
+                mobileMenuBtn.style.visibility = 'visible';
+                mobileMenuBtn.style.opacity = '1';
+                mobileMenuBtn.style.pointerEvents = 'auto';
+                mobileMenuBtn.style.cursor = 'pointer';
+                mobileMenuBtn.style.width = '48px';
+                mobileMenuBtn.style.height = '48px';
+                mobileMenuBtn.style.background = 'var(--primary)';
+                mobileMenuBtn.style.border = 'none';
+                mobileMenuBtn.style.borderRadius = '8px';
+                mobileMenuBtn.style.padding = '12px 10px';
+                mobileMenuBtn.style.zIndex = '1001';
+            }
+        }
+
+        // Make closeMobileMenu globally accessible
+        window.closeMobileMenu = closeMobileMenu;
+
+        // Close mobile menu when clicking backdrop or outside
+        if (mobileMenuBackdrop) {
+            mobileMenuBackdrop.addEventListener('click', closeMobileMenu);
+        }
+        
+        // Close button click handler
+        const mobileMenuClose = document.getElementById('mobileMenuClose');
+        if (mobileMenuClose) {
+            mobileMenuClose.addEventListener('click', closeMobileMenu);
+        }
+        
+        document.addEventListener('click', (e) => {
+            if (mobileMenu && mobileMenu.classList.contains('active')) {
+                if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target) && !mobileMenuBackdrop.contains(e.target)) {
+                    closeMobileMenu();
+                }
+            }
+        });
+
+        // Close mobile menu when clicking on menu items
+        const mobileMenuItems = document.querySelectorAll('.mobile-menu-item');
+        mobileMenuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                setTimeout(closeMobileMenu, 100);
+            });
+        });
+
+        // Scroll to Top Button
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+        
+        window.scrollToTop = scrollToTop;
+        
+        function toggleScrollToTopButton() {
+            if (window.scrollY > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        }
+        
+        window.addEventListener('scroll', toggleScrollToTopButton);
+        toggleScrollToTopButton(); // Check on load
     </script>
 </body>
 </html>

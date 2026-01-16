@@ -214,9 +214,9 @@
 .dashboard-header {
     background: var(--panel);
     border-bottom: 1px solid var(--border);
-    padding: 24px 32px;
+    padding: 14px 32px;
     position: sticky;
-    top: 73px;
+    top: 0px;
     z-index: 99;
     backdrop-filter: blur(12px);
     background: rgba(var(--bg-rgb), 0.95);

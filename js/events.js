@@ -13,16 +13,6 @@
             return JSON.parse(data);
         }
 
-        // Try to migrate from JSON file (for backward compatibility)
-        if (user.userId === 'user123') {
-            try {
-                // This will only work if life-events.json exists and is accessible
-                // In a real scenario, you'd fetch it, but for now we'll just return default
-            } catch (e) {
-                // Ignore migration errors
-            }
-        }
-
         // Return default structure
         return {
             id: user.userId,
@@ -32,6 +22,67 @@
             family: [],
             events: {}
         };
+    }
+
+    // Load sample data for user123 if not already loaded
+    function loadSampleDataIfNeeded() {
+        const user = window.auth.getCurrentUser();
+        if (!user || user.userId !== 'user123') {
+            return Promise.resolve();
+        }
+
+        const dataKey = `life-trails-data-${user.userId}`;
+        const existingData = localStorage.getItem(dataKey);
+        
+        // If data already exists with content, don't load
+        if (existingData) {
+            try {
+                const data = JSON.parse(existingData);
+                const hasEvents = data.events && Object.keys(data.events).length > 0;
+                const hasFamily = data.family && data.family.length > 0;
+                if (hasEvents || hasFamily) {
+                    return Promise.resolve(); // Data already loaded
+                }
+            } catch (e) {
+                // Invalid data, continue to load
+            }
+        }
+
+        // Check if we've already tried to load (and failed)
+        const sampleDataLoaded = localStorage.getItem('sample-data-loaded-user123');
+        if (sampleDataLoaded === 'failed') {
+            return Promise.resolve(); // Already tried and failed
+        }
+
+        // Try to load sample data
+        return fetch('data/sample-family.json')
+            .then(r => {
+                if (!r.ok) throw new Error('Failed to fetch: ' + r.status);
+                return r.json();
+            })
+            .then(sampleData => {
+                // Validate data structure
+                if (!sampleData || typeof sampleData !== 'object') {
+                    throw new Error('Invalid data format');
+                }
+                
+                // Store in localStorage
+                localStorage.setItem(dataKey, JSON.stringify(sampleData));
+                localStorage.setItem('sample-data-loaded-user123', 'success');
+                
+                // Reload page to show data
+                if (window.location.pathname.includes('dashboard.html') || 
+                    window.location.pathname.endsWith('/') ||
+                    window.location.pathname.endsWith('dashboard.html')) {
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 100);
+                }
+            })
+            .catch(err => {
+                console.error('Error loading sample data:', err);
+                localStorage.setItem('sample-data-loaded-user123', 'failed');
+            });
     }
 
     function saveUserData(data) {
@@ -102,6 +153,16 @@
         saveUserData,
         getAllEvents,
         addEvent,
-        deleteEvent
+        deleteEvent,
+        loadSampleDataIfNeeded
     };
+
+    // Auto-load sample data on initialization if needed
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(loadSampleDataIfNeeded, 100);
+        });
+    } else {
+        setTimeout(loadSampleDataIfNeeded, 100);
+    }
 })();
