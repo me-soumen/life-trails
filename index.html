@@ -28,13 +28,28 @@
                                 <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/>
                                 <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                             </svg>
-                            <svg class="theme-toggle-icon theme-toggle-icon-moon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                            <svg class="theme-toggle-icon theme-toggle-icon-moon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" fill="none"/>
                             </svg>
                         </div>
                     </div>
                 </button>
             </nav>
+            <div class="header-actions mobile-only">
+                <button class="theme-toggle theme-toggle-light mobile-theme-toggle" onclick="window.themeManager.toggle()" aria-label="Toggle theme" data-theme="light">
+                    <div class="theme-toggle-track">
+                        <div class="theme-toggle-knob">
+                            <svg class="theme-toggle-icon theme-toggle-icon-sun" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/>
+                                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            <svg class="theme-toggle-icon theme-toggle-icon-moon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" fill="none"/>
+                            </svg>
+                        </div>
+                    </div>
+                </button>
+            </div>
         </div>
     </header>
 
@@ -95,27 +110,9 @@
                     <p>Access your life trails from any device - desktop, tablet, or mobile. Beautiful design that works everywhere.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon" id="dark-mode-icon">
+                    <div class="feature-icon">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <!-- White rounded square container -->
-                            <rect x="4" y="4" width="16" height="16" rx="4" fill="white"/>
-                            <!-- Light purple border -->
-                            <rect x="4" y="4" width="16" height="16" rx="4" stroke="#a78bfa" stroke-width="1.5"/>
-                            <!-- Golden crescent moon using mask -->
-                            <g mask="url(#crescentMask)">
-                                <circle cx="12" cy="12" r="5" fill="url(#moonGradient)"/>
-                            </g>
-                            <defs>
-                                <mask id="crescentMask">
-                                    <rect width="24" height="24" fill="white"/>
-                                    <circle cx="14" cy="12" r="4" fill="black"/>
-                                </mask>
-                                <linearGradient id="moonGradient" x1="7" y1="7" x2="17" y2="17" gradientUnits="userSpaceOnUse">
-                                    <stop offset="0%" stop-color="#FFD700"/>
-                                    <stop offset="50%" stop-color="#FFA500"/>
-                                    <stop offset="100%" stop-color="#FF8C00"/>
-                                </linearGradient>
-                            </defs>
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
                     <h3>Dark Mode</h3>

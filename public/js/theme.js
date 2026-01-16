@@ -43,13 +43,16 @@
                 if (text) {
                     text.innerHTML = 'DARK<br>MODE';
                 }
-                // For mobile toggle, keep both icons and let CSS handle visibility
+                // Remove inline display styles from icons to let CSS handle visibility
                 const sunIcon = knob.querySelector('.theme-toggle-icon-sun');
                 const moonIcon = knob.querySelector('.theme-toggle-icon-moon');
+                if (sunIcon) sunIcon.removeAttribute('style');
+                if (moonIcon) moonIcon.removeAttribute('style');
+                
+                // If icons don't exist, create them
                 if (!sunIcon || !moonIcon) {
-                    // If icons don't exist, create them
                     knob.innerHTML = `
-                        <svg class="theme-toggle-icon theme-toggle-icon-sun" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <svg class="theme-toggle-icon theme-toggle-icon-sun" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/>
                             <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                         </svg>
@@ -64,17 +67,20 @@
                 if (text) {
                     text.innerHTML = 'LIGHT<br>MODE';
                 }
-                // For mobile toggle, keep both icons and let CSS handle visibility
+                // Remove inline display styles from icons to let CSS handle visibility
                 const sunIcon = knob.querySelector('.theme-toggle-icon-sun');
                 const moonIcon = knob.querySelector('.theme-toggle-icon-moon');
+                if (sunIcon) sunIcon.removeAttribute('style');
+                if (moonIcon) moonIcon.removeAttribute('style');
+                
+                // If icons don't exist, create them
                 if (!sunIcon || !moonIcon) {
-                    // If icons don't exist, create them
                     knob.innerHTML = `
                         <svg class="theme-toggle-icon theme-toggle-icon-sun" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/>
                             <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                         </svg>
-                        <svg class="theme-toggle-icon theme-toggle-icon-moon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <svg class="theme-toggle-icon theme-toggle-icon-moon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" fill="none"/>
                         </svg>
                     `;

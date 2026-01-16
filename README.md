@@ -38,12 +38,48 @@ life-trails/
 
 ## Getting Started
 
+### Running Locally
+
 1. **Clone or download** this repository
-2. **Open `index.html`** in a web browser
-3. **Sign in** with the demo account:
-    - Email: `demo@lifetrails.com`
+   ```bash
+   git clone <repository-url>
+   cd life-trails
+   ```
+
+2. **Start a local web server** (required for proper functionality):
+   
+   **Option 1: Using Python 3**
+   ```bash
+   python3 -m http.server 8080
+   ```
+   
+   **Option 2: Using Python 2**
+   ```bash
+   python -m SimpleHTTPServer 8080
+   ```
+   
+   **Option 3: Using Node.js (http-server)**
+   ```bash
+   npx http-server -p 8080
+   ```
+   
+   **Option 4: Using PHP**
+   ```bash
+   php -S localhost:8080
+   ```
+
+3. **Open your browser** and navigate to:
+   ```
+   http://localhost:8080
+   ```
+
+4. **Sign in** with the demo account:
+    - Email: `demo@life.trails.click`
     - Password: `demo123`
-4. **Or create a new account** by clicking "Create Account" on the sign-in page
+   
+   **Or create a new account** by clicking "Create Account" on the sign-in page
+
+> **Note:** Opening `index.html` directly in a browser may not work properly due to CORS restrictions and relative path issues. Using a local web server is recommended.
 
 ## Usage
 
