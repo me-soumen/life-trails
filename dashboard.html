@@ -750,6 +750,13 @@
                 mobileMenuBackdrop.classList.toggle('active');
             }
             document.body.style.overflow = !isActive ? 'hidden' : '';
+            // Always ensure no background, regardless of state - use requestAnimationFrame to ensure it applies after transitions
+            requestAnimationFrame(() => {
+                mobileMenuBtn.style.setProperty('background', 'none', 'important');
+                mobileMenuBtn.style.setProperty('background-color', 'transparent', 'important');
+                mobileMenuBtn.style.setProperty('border', 'none', 'important');
+                mobileMenuBtn.style.setProperty('box-shadow', 'none', 'important');
+            });
         }
 
         function closeMobileMenu() {
@@ -760,6 +767,15 @@
                 mobileMenuBackdrop.classList.remove('active');
             }
             document.body.style.overflow = '';
+            // Always ensure no background - use requestAnimationFrame and setTimeout to ensure it applies after transitions
+            requestAnimationFrame(() => {
+                setTimeout(() => {
+                    mobileMenuBtn.style.setProperty('background', 'none', 'important');
+                    mobileMenuBtn.style.setProperty('background-color', 'transparent', 'important');
+                    mobileMenuBtn.style.setProperty('border', 'none', 'important');
+                    mobileMenuBtn.style.setProperty('box-shadow', 'none', 'important');
+                }, 100);
+            });
         }
 
         if (mobileMenuBtn) {
@@ -775,12 +791,14 @@
                 mobileMenuBtn.style.opacity = '1';
                 mobileMenuBtn.style.pointerEvents = 'auto';
                 mobileMenuBtn.style.cursor = 'pointer';
-                mobileMenuBtn.style.width = '48px';
-                mobileMenuBtn.style.height = '48px';
-                mobileMenuBtn.style.background = 'var(--primary)';
+                mobileMenuBtn.style.width = '32px';
+                mobileMenuBtn.style.height = '32px';
+                mobileMenuBtn.style.background = 'none';
+                mobileMenuBtn.style.backgroundColor = 'transparent';
                 mobileMenuBtn.style.border = 'none';
-                mobileMenuBtn.style.borderRadius = '8px';
-                mobileMenuBtn.style.padding = '12px 10px';
+                mobileMenuBtn.style.borderRadius = '0';
+                mobileMenuBtn.style.padding = '0';
+                mobileMenuBtn.style.boxShadow = 'none';
                 mobileMenuBtn.style.zIndex = '1001';
             }
         }
