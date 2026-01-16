@@ -27,9 +27,12 @@
                 <button class="theme-toggle theme-toggle-light mobile-theme-toggle" onclick="window.themeManager.toggle()" aria-label="Toggle theme" data-theme="light">
                     <div class="theme-toggle-track">
                         <div class="theme-toggle-knob">
-                            <svg class="theme-toggle-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
-                                <path d="M12 6V4M12 20V18M6 12H4M20 12H18M8.5 8.5L7 7M17 17L15.5 15.5M8.5 15.5L7 17M17 7L15.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            <svg class="theme-toggle-icon theme-toggle-icon-sun" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/>
+                                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            <svg class="theme-toggle-icon theme-toggle-icon-moon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" fill="none"/>
                             </svg>
                         </div>
                     </div>
@@ -42,9 +45,30 @@
                 <h3>Menu</h3>
             </div>
             <div class="mobile-menu-content">
-                <a href="add-event.html" class="mobile-menu-item">➕ Add Event</a>
-                <a href="add-family.html" class="mobile-menu-item">👨‍👩‍👦 Add Family</a>
-                <button onclick="window.auth.signOut(); window.location.href='index.html';" class="mobile-menu-item mobile-menu-btn-item">Sign Out</button>
+                <a href="add-event.html" class="mobile-menu-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    <span>Add Event</span>
+                </a>
+                <a href="add-family.html" class="mobile-menu-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    <span>Add Family</span>
+                </a>
+                <button onclick="window.auth.signOut(); window.location.href='index.html';" class="mobile-menu-item mobile-menu-btn-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    <span>Sign Out</span>
+                </button>
             </div>
         </div>
     </header>
@@ -856,5 +880,13 @@
         window.addEventListener('scroll', toggleScrollToTopButton);
         toggleScrollToTopButton(); // Check on load
     </script>
+
+    <footer class="mobile-footer mobile-only">
+        <div class="footer-content">
+            <div class="footer-copyright">
+                <p>&copy; 2024 <a href="https://trails.click" target="_blank" rel="noopener noreferrer" class="footer-link-text">Trails Labs</a>. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

@@ -43,34 +43,42 @@
                 if (text) {
                     text.innerHTML = 'DARK<br>MODE';
                 }
-                const maskId = 'moonMask' + Math.random().toString(36).substr(2, 9);
-                knob.innerHTML = `
-                    <svg class="theme-toggle-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g mask="url(#${maskId})">
-                            <circle cx="12" cy="12" r="5.5" fill="currentColor"/>
-                        </g>
-                        <circle cx="15.5" cy="8.5" r="1" fill="currentColor"/>
-                        <circle cx="17.5" cy="10.5" r="0.6" fill="currentColor"/>
-                        <defs>
-                            <mask id="${maskId}">
-                                <rect width="24" height="24" fill="white"/>
-                                <circle cx="15" cy="12" r="4" fill="black"/>
-                            </mask>
-                        </defs>
-                    </svg>
-                `;
+                // For mobile toggle, keep both icons and let CSS handle visibility
+                const sunIcon = knob.querySelector('.theme-toggle-icon-sun');
+                const moonIcon = knob.querySelector('.theme-toggle-icon-moon');
+                if (!sunIcon || !moonIcon) {
+                    // If icons don't exist, create them
+                    knob.innerHTML = `
+                        <svg class="theme-toggle-icon theme-toggle-icon-sun" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                            <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <svg class="theme-toggle-icon theme-toggle-icon-moon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" fill="none"/>
+                        </svg>
+                    `;
+                }
             } else {
                 btn.classList.add('theme-toggle-light');
                 btn.classList.remove('theme-toggle-dark');
                 if (text) {
                     text.innerHTML = 'LIGHT<br>MODE';
                 }
-                knob.innerHTML = `
-                    <svg class="theme-toggle-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
-                        <path d="M12 6V4M12 20V18M6 12H4M20 12H18M8.5 8.5L7 7M17 17L15.5 15.5M8.5 15.5L7 17M17 7L15.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                    </svg>
-                `;
+                // For mobile toggle, keep both icons and let CSS handle visibility
+                const sunIcon = knob.querySelector('.theme-toggle-icon-sun');
+                const moonIcon = knob.querySelector('.theme-toggle-icon-moon');
+                if (!sunIcon || !moonIcon) {
+                    // If icons don't exist, create them
+                    knob.innerHTML = `
+                        <svg class="theme-toggle-icon theme-toggle-icon-sun" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <svg class="theme-toggle-icon theme-toggle-icon-moon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" fill="none"/>
+                        </svg>
+                    `;
+                }
             }
         });
     }
