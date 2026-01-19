@@ -28,16 +28,17 @@
         return months[monthName.toLowerCase()] || '01';
     }
 
-    function getImageUrl(userId, imageName) {
+    function getImageUrl(userId, imageName, imageType) {
         if (!imageName) return '';
         
         // Get current user to check if this is a demo account
         const currentUser = window.auth && window.auth.getCurrentUser ? window.auth.getCurrentUser() : null;
         
-        // Always check if current user is demo account first (check for both possible demo emails)
+        // Check if current user is demo account (using isDemo flag or username)
         const isDemoAccount = currentUser && (
-            currentUser.email === 'demo@life.trails.click' || 
-            currentUser.email === 'demo@lifetrails.com'
+            currentUser.isDemo === true ||
+            currentUser.username === 'demo@life.trails.click' ||
+            currentUser.username === 'demo@lifetrails.com'
         );
         
         // Adjust path based on current location
@@ -45,50 +46,58 @@
         let imagePath;
         
         if (isDemoAccount) {
-            // Demo account: images are in data/{userEmail}/images/{imageName}
-            // Always use demo@life.trails.click for demo account paths
-            const demoEmail = 'demo@life.trails.click';
+            // Demo account: images are in database/{userId}/images/{type}/{imageName}
+            // Map demo@life.trails.click to demo_user folder name
+            const userIdFolder = 'demo_user';
             
-            // First check localStorage for uploaded images (with demo email)
-            const imageKey = `life-trails-image-${demoEmail}-${imageName}`;
+            // First check localStorage for uploaded images (with demo userId)
+            const demoUserId = currentUser?.userId || 'demo_user';
+            const imageKey = `life-trails-image-${demoUserId}-${imageName}`;
             const storedImage = localStorage.getItem(imageKey);
             if (storedImage) {
                 return storedImage; // Base64 data URL
             }
             
-            // Build path to data/{email}/images/{imageName}
-            if (currentPath.includes('/app/dashboard/')) {
-                imagePath = `../../../data/${encodeURIComponent(demoEmail)}/images/${escapeHtml(imageName)}`;
-            } else if (currentPath.includes('/app/add/')) {
-                imagePath = `../../../../data/${encodeURIComponent(demoEmail)}/images/${escapeHtml(imageName)}`;
-            } else if (currentPath.includes('/app/signin/')) {
-                imagePath = `../../../data/${encodeURIComponent(demoEmail)}/images/${escapeHtml(imageName)}`;
-            } else {
-                imagePath = `data/${encodeURIComponent(demoEmail)}/images/${escapeHtml(imageName)}`;
-            }
-        } else {
-            // Regular account: images are in public/images/{userId}/{imageName}
-            const actualUserId = userId || 'default';
+            // Determine subfolder: 'event' for events, 'family' for family members
+            const subfolder = imageType === 'event' ? 'events' : (imageType === 'family' ? 'family' : 'images');
             
-            // First check localStorage for uploaded images
+            // Build path to database/{userIdFolder}/images/{type}/{imageName}
+            if (currentPath.includes('/app/dashboard/')) {
+                imagePath = `../../../database/${encodeURIComponent(userIdFolder)}/images/${subfolder}/${escapeHtml(imageName)}`;
+            } else if (currentPath.includes('/app/add/')) {
+                imagePath = `../../../../database/${encodeURIComponent(userIdFolder)}/images/${subfolder}/${escapeHtml(imageName)}`;
+            } else if (currentPath.includes('/app/signin/')) {
+                imagePath = `../../../database/${encodeURIComponent(userIdFolder)}/images/${subfolder}/${escapeHtml(imageName)}`;
+            } else {
+                imagePath = `database/${encodeURIComponent(userIdFolder)}/images/${subfolder}/${escapeHtml(imageName)}`;
+            }
+            
+            // Return the path directly for demo users (no warning needed)
+            return imagePath;
+        } else {
+            // Regular account: images are loaded from GitHub and cached in localStorage
+            const actualUserId = userId || currentUser?.userId || currentUser?.username || 'default';
+            
+            // First check localStorage for cached images (loaded from GitHub)
             const imageKey = `life-trails-image-${actualUserId}-${imageName}`;
             const storedImage = localStorage.getItem(imageKey);
             if (storedImage) {
                 return storedImage; // Base64 data URL
             }
             
-            if (currentPath.includes('/app/dashboard/')) {
-                imagePath = `../../public/images/${actualUserId}/${escapeHtml(imageName)}`;
-            } else if (currentPath.includes('/app/add/')) {
-                imagePath = `../../../public/images/${actualUserId}/${escapeHtml(imageName)}`;
-            } else if (currentPath.includes('/app/signin/')) {
-                imagePath = `../../public/images/${actualUserId}/${escapeHtml(imageName)}`;
-            } else {
-                imagePath = `public/images/${actualUserId}/${escapeHtml(imageName)}`;
+            // If not in localStorage and user is logged in, try to fetch from GitHub
+            // For now, return empty string - image will be loaded when data is fetched during sign-in
+            // Only log warning if user is actually logged in (not on initial load)
+            if (currentUser && currentUser.userId) {
+                // Don't spam console - only log once per image per session
+                const warnKey = `image-warn-${imageName}`;
+                if (!sessionStorage.getItem(warnKey)) {
+                    console.log(`ℹ️ Image not yet loaded: ${imageName}. It will be loaded shortly.`);
+                    sessionStorage.setItem(warnKey, 'true');
+                }
             }
+            return ''; // Return empty string if image not cached yet
         }
-        
-        return imagePath;
     }
 
     // Initialize header navigation

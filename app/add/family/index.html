@@ -4,19 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Family Member - Life Trails</title>
-    <link rel="icon" type="image/png" href="../../../public/images/favicon.png">
-    <link rel="apple-touch-icon" href="../../../public/images/favicon.png">
+    <link rel="icon" type="image/png" href="../../../images/favicon.png">
+    <link rel="apple-touch-icon" href="../../../images/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../../public/css/main.css">
-    <link rel="stylesheet" href="../../../public/css/theme.css">
+    <link rel="stylesheet" href="../../../css/main.css">
+    <link rel="stylesheet" href="../../../css/theme.css">
 </head>
 <body>
     <header>
         <div class="header-container">
             <a href="../../../../" class="logo">
-                <img src="../../../public/images/logo.png" alt="Life Trails" class="logo-img">
+                <img src="../../../images/logo.png" alt="Life Trails" class="logo-img">
                 <span>Life Trails</span>
             </a>
             <nav class="header-nav"></nav>
@@ -85,11 +85,11 @@
         </div>
     </div>
 
-    <script src="../../../public/js/theme.js"></script>
-    <script src="../../../public/js/auth.js"></script>
-    <script src="../../../public/js/events.js"></script>
-    <script src="../../../public/js/family.js"></script>
-    <script src="../../../public/js/app.js"></script>
+    <script src="../../../js/theme.js"></script>
+    <script type="module" src="../../../js/auth.js"></script>
+    <script src="../../../js/events.js"></script>
+    <script src="../../../js/family.js"></script>
+    <script src="../../../js/app.js"></script>
     <script>
         // Check authentication
         if (!window.auth.requireAuth()) {
@@ -239,7 +239,7 @@
 
             const user = window.auth.getCurrentUser();
             list.innerHTML = family.map((member, index) => {
-                const imageUrl = window.app.getImageUrl(user.userId, member.image);
+                const imageUrl = window.app.getImageUrl(user.userId, member.image, 'family');
                 return `
                 <div style="display: flex; align-items: center; gap: 16px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px;">
                     <img src="${imageUrl}" 

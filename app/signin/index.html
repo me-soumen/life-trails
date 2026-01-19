@@ -4,19 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In - Life Trails</title>
-    <link rel="icon" type="image/png" href="../../public/images/favicon.png">
-    <link rel="apple-touch-icon" href="../../public/images/favicon.png">
+    <link rel="icon" type="image/png" href="../../images/favicon.png">
+    <link rel="apple-touch-icon" href="../../images/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../public/css/main.css">
-    <link rel="stylesheet" href="../../public/css/theme.css">
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/theme.css">
 </head>
 <body>
     <header>
         <div class="header-container">
             <a href="../../" class="logo">
-                <img src="../../public/images/logo.png" alt="Life Trails" class="logo-img">
+                <img src="../../images/logo.png" alt="Life Trails" class="logo-img">
                 <span>Life Trails</span>
             </a>
             <nav class="header-nav">
@@ -64,13 +64,24 @@
 
             <form id="signinForm">
                 <div class="form-group">
-                    <label class="form-label" for="email">Email</label>
-                    <input type="email" id="email" class="form-input" placeholder="your@email.com" required>
+                    <label class="form-label" for="username">Username</label>
+                    <input type="text" id="username" class="form-input" placeholder="lt_firstname" pattern="lt_[a-zA-Z0-9_]+" required>
+                    <small style="color: var(--text-muted); font-size: 12px; margin-top: 4px; display: block;">Format: lt_firstname (e.g., lt_john, lt_sarah)</small>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" style="position: relative;">
                     <label class="form-label" for="password">Password</label>
-                    <input type="password" id="password" class="form-input" placeholder="Enter your password" required>
+                    <input type="password" id="password" class="form-input" placeholder="Enter your password" required style="padding-right: 40px;">
+                    <button type="button" id="togglePassword" style="position: absolute; right: 12px; top: 38px; background: none; border: none; cursor: pointer; padding: 4px; color: var(--text-muted);" onclick="togglePasswordVisibility()" aria-label="Toggle password visibility">
+                        <svg id="eyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        <svg id="eyeOffIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                            <line x1="1" y1="1" x2="23" y2="23"></line>
+                        </svg>
+                    </button>
                 </div>
 
                 <div class="btn-group">
@@ -92,13 +103,24 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="signupEmail">Email</label>
-                        <input type="email" id="signupEmail" class="form-input" placeholder="your@email.com" required>
+                        <label class="form-label" for="signupUsername">Username</label>
+                        <input type="text" id="signupUsername" class="form-input" placeholder="demo_user" pattern="[a-zA-Z0-9_]+" required>
+                        <small style="color: var(--text-muted); font-size: 12px; margin-top: 4px; display: block;">Note: lt_* usernames require admin setup</small>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" style="position: relative;">
                         <label class="form-label" for="signupPassword">Password</label>
-                        <input type="password" id="signupPassword" class="form-input" placeholder="Choose a password" required minlength="6">
+                        <input type="password" id="signupPassword" class="form-input" placeholder="Choose a password" required minlength="6" style="padding-right: 40px;">
+                        <button type="button" id="toggleSignupPassword" style="position: absolute; right: 12px; top: 38px; background: none; border: none; cursor: pointer; padding: 4px; color: var(--text-muted);" onclick="toggleSignupPasswordVisibility()" aria-label="Toggle password visibility">
+                            <svg id="signupEyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                            <svg id="signupEyeOffIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                <line x1="1" y1="1" x2="23" y2="23"></line>
+                            </svg>
+                        </button>
                     </div>
 
                     <div class="form-row">
@@ -122,15 +144,33 @@
 
             <div style="margin-top: 32px; padding: 16px; background: var(--bg-secondary); border-radius: 8px; font-size: 13px; color: var(--text-muted);">
                 <strong>Demo Account:</strong><br>
-                Email: demo@life.trails.click<br>
+                Username: demo@life.trails.click<br>
                 Password: demo123
             </div>
         </div>
     </div>
 
-    <script src="../../public/js/theme.js"></script>
-    <script src="../../public/js/auth.js"></script>
+    <script src="../../js/theme.js"></script>
+    <script type="module" src="../../js/auth.js"></script>
     <script>
+        // Global error handler to catch module loading errors
+        window.addEventListener('error', function(e) {
+            console.error('Global error:', e.message, e.filename, e.lineno, e);
+            if (e.message.includes('Failed to resolve module') || e.message.includes('import') || (e.filename && e.filename.includes('auth.js'))) {
+                console.error('⚠️ Module loading error detected:', e);
+                showAlert('Failed to load authentication module. Please check console for details.');
+            }
+        });
+        
+        // Check if window.auth exists after modules load
+        setTimeout(() => {
+            if (!window.auth) {
+                console.error('⚠️ window.auth is not available after 2 seconds');
+                console.error('Check the console above for module loading errors');
+            } else {
+                console.log('✅ window.auth is available:', Object.keys(window.auth));
+            }
+        }, 2000);
         function showAlert(message, type = 'error') {
             const container = document.getElementById('alertContainer');
             container.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
@@ -149,33 +189,127 @@
             document.getElementById('signinForm').style.display = 'block';
         }
 
-        // Sign In Form
-        document.getElementById('signinForm').addEventListener('submit', function(e) {
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eyeIcon');
+            const eyeOffIcon = document.getElementById('eyeOffIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.style.display = 'none';
+                eyeOffIcon.style.display = 'block';
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.style.display = 'block';
+                eyeOffIcon.style.display = 'none';
+            }
+        }
+
+        function toggleSignupPasswordVisibility() {
+            const passwordInput = document.getElementById('signupPassword');
+            const eyeIcon = document.getElementById('signupEyeIcon');
+            const eyeOffIcon = document.getElementById('signupEyeOffIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.style.display = 'none';
+                eyeOffIcon.style.display = 'block';
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.style.display = 'block';
+                eyeOffIcon.style.display = 'none';
+            }
+        }
+
+        // Wait for auth module to load before setting up form handler
+        async function waitForAuth() {
+            let attempts = 0;
+            while (!window.auth && attempts < 50) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                attempts++;
+            }
+            if (!window.auth) {
+                console.error('Auth module failed to load after 5 seconds');
+                showAlert('Authentication module failed to load. Please refresh the page.');
+                return false;
+            }
+            console.log('Auth module loaded successfully:', Object.keys(window.auth));
+            return true;
+        }
+
+        // Immediate form handler to prevent default submission
+        let formHandlerAttached = false;
+        let authModuleReady = false;
+        
+        document.getElementById('signinForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            const email = document.getElementById('email').value;
+            const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value;
 
-            const result = window.auth.signIn(email, password);
-            if (result.success) {
-                showAlert('Sign in successful! Redirecting...', 'success');
-                setTimeout(() => {
-                    window.location.href = '../dashboard/';
-                }, 1000);
-            } else {
-                showAlert(result.error || 'Invalid credentials');
+            if (!username || !password) {
+                showAlert('Please enter both username and password');
+                return;
+            }
+
+            // Wait for auth module if not ready yet
+            if (!authModuleReady) {
+                console.log('Auth module not ready yet, waiting...');
+                showAlert('Please wait, authentication system is loading...');
+                const ready = await waitForAuth();
+                if (!ready) {
+                    showAlert('Authentication system failed to load. Please refresh the page.');
+                    return;
+                }
+                authModuleReady = true;
+            }
+
+            if (!window.auth || typeof window.auth.signIn !== 'function') {
+                console.error('window.auth.signIn is not available:', window.auth);
+                showAlert('Authentication system error. Please refresh the page.');
+                return;
+            }
+
+            try {
+                console.log('Attempting sign in with:', { username, passwordLength: password.length });
+                const result = await window.auth.signIn(username, password);
+                console.log('Sign in result:', result);
+                if (result && result.success) {
+                    showAlert('Sign in successful! Redirecting...', 'success');
+                    setTimeout(() => {
+                        window.location.href = '../dashboard/';
+                    }, 1000);
+                } else {
+                    console.error('Sign in failed:', result);
+                    showAlert(result?.error || 'Invalid username or password');
+                }
+            } catch (error) {
+                console.error('Sign in error:', error);
+                console.error('Error name:', error.name);
+                console.error('Error message:', error.message);
+                console.error('Error stack:', error.stack);
+                showAlert(error.message || 'An error occurred during sign in. Please check the console for details.');
             }
         });
 
+        // Wait for auth module in background and mark as ready
+        (async function() {
+            const ready = await waitForAuth();
+            if (ready) {
+                authModuleReady = true;
+                console.log('✅ Auth module is now ready');
+            }
+        })();
+
         // Sign Up Form
-        document.getElementById('signupFormElement').addEventListener('submit', function(e) {
+        document.getElementById('signupFormElement').addEventListener('submit', async function(e) {
             e.preventDefault();
-            const email = document.getElementById('signupEmail').value;
+            const username = document.getElementById('signupUsername').value;
             const password = document.getElementById('signupPassword').value;
             const name = document.getElementById('signupName').value;
             const dateOfBirth = document.getElementById('signupDOB').value;
             const placeOfBirth = document.getElementById('signupPlace').value;
 
-            const result = window.auth.signUp(email, password, name, dateOfBirth, placeOfBirth);
+            const result = await window.auth.signUp(username, password, name, dateOfBirth, placeOfBirth);
             if (result.success) {
                 showAlert('Account created successfully! Redirecting...', 'success');
                 setTimeout(() => {
@@ -186,10 +320,12 @@
             }
         });
 
-        // Check if already signed in
-        if (window.auth.isAuthenticated()) {
-            window.location.href = '../dashboard';
-        }
+        // Check if already signed in (wait for auth to load)
+        waitForAuth().then(ready => {
+            if (ready && window.auth && window.auth.isAuthenticated()) {
+                window.location.href = '../dashboard/';
+            }
+        });
     </script>
 </body>
 </html>

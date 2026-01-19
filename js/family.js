@@ -2,13 +2,13 @@
 (function() {
     'use strict';
 
-    function getFamily() {
-        const data = window.eventsManager.getUserData();
+    async function getFamily() {
+        const data = await window.eventsManager.getUserData();
         return data ? (data.family || []) : [];
     }
 
-    function addFamilyMember(memberData) {
-        const data = window.eventsManager.getUserData();
+    async function addFamilyMember(memberData) {
+        const data = await window.eventsManager.getUserData();
         if (!data) return false;
 
         if (!data.family) {
@@ -27,16 +27,16 @@
         return window.eventsManager.saveUserData(data);
     }
 
-    function deleteFamilyMember(index) {
-        const data = window.eventsManager.getUserData();
+    async function deleteFamilyMember(index) {
+        const data = await window.eventsManager.getUserData();
         if (!data || !data.family) return false;
 
         data.family.splice(index, 1);
         return window.eventsManager.saveUserData(data);
     }
 
-    function getFamilyByLevel() {
-        const family = getFamily();
+    async function getFamilyByLevel() {
+        const family = await getFamily();
         const levels = {};
 
         family.forEach(member => {

@@ -88,16 +88,91 @@
     flex-wrap: wrap;
 }
 
-.hero-buttons .btn {
-    padding: 14px 32px;
-    font-size: 16px;
-    transition: all 0.3s ease;
-    animation: fadeInUp 1.2s ease;
+/* Hero Get Started Button - Override all link styles */
+.hero-buttons .hero-get-started-btn,
+a.hero-get-started-btn,
+.hero-get-started-btn {
+    display: inline-block !important;
+    padding: 18px 48px !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.25) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 2px solid rgba(255, 255, 255, 0.5) !important;
+    border-radius: 50px !important;
+    text-decoration: none !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    animation: fadeInUp 1.2s ease !important;
+    position: relative !important;
+    overflow: hidden !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 
+                0 0 0 0 rgba(255, 255, 255, 0.4) !important;
+    letter-spacing: 0.5px !important;
+    text-transform: none !important;
+    cursor: pointer !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    outline: none !important;
+    line-height: 1.5 !important;
+    vertical-align: middle !important;
 }
 
-.hero-buttons .btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+.hero-buttons .hero-get-started-btn:link,
+.hero-buttons .hero-get-started-btn:visited,
+.hero-buttons .hero-get-started-btn:active,
+a.hero-get-started-btn:link,
+a.hero-get-started-btn:visited,
+a.hero-get-started-btn:active,
+.hero-get-started-btn:link,
+.hero-get-started-btn:visited,
+.hero-get-started-btn:active {
+    color: #ffffff !important;
+    text-decoration: none !important;
+    border-bottom: none !important;
+    text-decoration-line: none !important;
+    text-decoration-style: none !important;
+}
+
+.hero-get-started-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+}
+
+/* Clean and elegant hover effect */
+.hero-buttons .hero-get-started-btn:hover,
+a.hero-get-started-btn:hover,
+.hero-get-started-btn:hover {
+    transform: translateY(-4px) !important;
+    background: rgba(255, 255, 255, 0.4) !important;
+    border-color: rgba(255, 255, 255, 0.8) !important;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3),
+                0 4px 20px rgba(255, 255, 255, 0.2) !important;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    letter-spacing: 1px !important;
+}
+
+.hero-buttons .hero-get-started-btn:hover::before,
+a.hero-get-started-btn:hover::before,
+.hero-get-started-btn:hover::before {
+    left: 100% !important;
+}
+
+.hero-get-started-btn:active {
+    transform: translateY(-2px) scale(1.03) !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3),
+                0 0 0 6px rgba(255, 255, 255, 0.2) !important;
+    background: rgba(255, 255, 255, 0.3) !important;
+    color: #ffffff !important;
+    text-decoration: none !important;
 }
 
 /* Features Section */

@@ -1,0 +1,19 @@
+{
+  "baseUrl": "https://api.github.com/repos/me-soumen/trails-data/contents",
+  "dataFolderPath": "life-trails",
+  "eventsImagesFolderPath": "images/events",
+  "familyImagesFolderPath": "images/family",
+  "usersDataFileName": "users.json",
+  "commit": {
+    "committerName": "Life Trails",
+    "committerEmail": "lifetrails.in@gmail.com",
+    "message": {
+      "add": "Added new life event or family member",
+      "modify": "Updated life event or family member data",
+      "delete": "Deleted family member"
+    }
+  },
+  "encryptedSecrets": {
+    "lt_admin": "8jf8ROOXT8PoaKg+4T/YcavCP8P+70hvyQloqtww+4x5bxXogXnwrakEyh6vu5EbD3spuapNRyoGlIIL7Rr80qF/FKgWt+PzX12bxvj6RIZEn5wAByXAM+NS/ac6NmnMw3jocYdHaWkY4Qa4NIGh5psNibg8ugSr6MKEWz2Sru0BUefb0v6Lpv8="
+  }
+}

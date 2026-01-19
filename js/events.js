@@ -2,15 +2,62 @@
 (function() {
     'use strict';
 
-    function getUserData() {
+    // Import encryption functions (dynamic import for compatibility)
+    let encryptUserData, decryptUserData;
+    
+    async function loadEncryptionModule() {
+        if (!encryptUserData || !decryptUserData) {
+            try {
+                const module = await import('./services/encrypt.js');
+                encryptUserData = module.encryptUserData;
+                decryptUserData = module.decryptUserData;
+            } catch (error) {
+                console.error('Failed to load encryption module:', error);
+                // Fallback to plain text if encryption not available
+                encryptUserData = null;
+                decryptUserData = null;
+            }
+        }
+    }
+
+    async function getUserData() {
         const user = window.auth.getCurrentUser();
         if (!user) return null;
 
+        await loadEncryptionModule();
         const dataKey = `life-trails-data-${user.userId}`;
-        const data = localStorage.getItem(dataKey);
+        const encryptedData = localStorage.getItem(dataKey);
         
-        if (data) {
-            return JSON.parse(data);
+        if (encryptedData) {
+            try {
+                // Try to decrypt if encryption is available
+                if (decryptUserData && !user.isDemo) {
+                    // For real users, get PAT from sessionStorage
+                    const PAT_STORAGE_KEY = `life-trails-pat-${user.username}`;
+                    const token = sessionStorage.getItem(PAT_STORAGE_KEY);
+                    if (token) {
+                        const decrypted = await decryptUserData(encryptedData, token);
+                        return decrypted;
+                    } else {
+                        // PAT not available, clear data and require re-auth
+                        console.warn('PAT not found, clearing encrypted data');
+                        localStorage.removeItem(dataKey);
+                    }
+                } else {
+                    // Demo users or encryption not available - try plain JSON
+                    try {
+                        return JSON.parse(encryptedData);
+                    } catch (e) {
+                        // Data might be encrypted but no decrypt function
+                        console.warn('Failed to parse data, may be encrypted');
+                        return null;
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to decrypt user data:', error);
+                // Clear corrupted data
+                localStorage.removeItem(dataKey);
+            }
         }
 
         // Return default structure
@@ -24,7 +71,7 @@
         };
     }
 
-    // Load demo data from data/{emailId}/data.json
+    // Load demo data from database/{userId}/data.json
     function loadDemoDataIfNeeded() {
         const user = window.auth.getCurrentUser();
         if (!user || !user.isDemo) {
@@ -73,15 +120,17 @@
             return Promise.resolve(); // Already tried and failed (and no reload needed)
         }
 
-        // Try to load demo data from data/{emailId}/data.json
+        // Try to load demo data from database/{userId}/data.json
+        // Map demo@life.trails.click to demo_user folder name
+        const userIdFolder = user.userId === 'demo@life.trails.click' ? 'demo_user' : user.userId;
         const currentPath = window.location.pathname;
-        let dataPath = `data/${encodeURIComponent(user.userId)}/data.json`;
+        let dataPath = `database/${encodeURIComponent(userIdFolder)}/data.json`;
         if (currentPath.includes('/app/dashboard/')) {
-            dataPath = `../../../data/${encodeURIComponent(user.userId)}/data.json`;
+            dataPath = `../../../database/${encodeURIComponent(userIdFolder)}/data.json`;
         } else if (currentPath.includes('/app/add/')) {
-            dataPath = `../../../../data/${encodeURIComponent(user.userId)}/data.json`;
+            dataPath = `../../../../database/${encodeURIComponent(userIdFolder)}/data.json`;
         } else if (currentPath.includes('/app/signin/')) {
-            dataPath = `../../../data/${encodeURIComponent(user.userId)}/data.json`;
+            dataPath = `../../../database/${encodeURIComponent(userIdFolder)}/data.json`;
         }
 
         return fetch(dataPath)
@@ -97,7 +146,7 @@
                 
                 // Use image names directly from JSON file (no random assignment)
                 // Images are already specified in the events' images arrays
-                // Store in localStorage
+                // Store in localStorage (demo data can be plain text, but we'll use JSON for consistency)
                 localStorage.setItem(dataKey, JSON.stringify(sampleData));
                 localStorage.setItem(loadKey, 'success');
                 
@@ -115,17 +164,43 @@
             });
     }
 
-    function saveUserData(data) {
+    async function saveUserData(data) {
         const user = window.auth.getCurrentUser();
         if (!user) return false;
 
+        await loadEncryptionModule();
         const dataKey = `life-trails-data-${user.userId}`;
-        localStorage.setItem(dataKey, JSON.stringify(data));
-        return true;
+        
+        try {
+            // Encrypt data for real users, plain text for demo users
+            if (encryptUserData && !user.isDemo) {
+                const PAT_STORAGE_KEY = `life-trails-pat-${user.username}`;
+                const token = sessionStorage.getItem(PAT_STORAGE_KEY);
+                if (token) {
+                    const encrypted = await encryptUserData(data, token);
+                    localStorage.setItem(dataKey, encrypted);
+                    return true;
+                } else {
+                    // PAT not available - fallback to plain text (shouldn't happen)
+                    console.warn('PAT not found, storing in plain text');
+                    localStorage.setItem(dataKey, JSON.stringify(data));
+                    return true;
+                }
+            } else {
+                // Demo users or encryption not available - store in plain text
+                localStorage.setItem(dataKey, JSON.stringify(data));
+                return true;
+            }
+        } catch (error) {
+            console.error('Failed to encrypt/save user data:', error);
+            // Fallback to plain text on error
+            localStorage.setItem(dataKey, JSON.stringify(data));
+            return true;
+        }
     }
 
-    function getAllEvents() {
-        const data = getUserData();
+    async function getAllEvents() {
+        const data = await getUserData();
         if (!data || !data.events) return [];
 
         const allEvents = [];
@@ -143,8 +218,8 @@
         return allEvents.sort((a, b) => b.sortDate - a.sortDate);
     }
 
-    function addEvent(eventData) {
-        const data = getUserData();
+    async function addEvent(eventData) {
+        const data = await getUserData();
         if (!data) return false;
 
         const year = eventData.date.split('-')[0];
@@ -166,8 +241,8 @@
         return saveUserData(data);
     }
 
-    function deleteEvent(year, eventIndex) {
-        const data = getUserData();
+    async function deleteEvent(year, eventIndex) {
+        const data = await getUserData();
         if (!data || !data.events[year]) return false;
 
         data.events[year].splice(eventIndex, 1);
